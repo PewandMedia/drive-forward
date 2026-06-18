@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PreiseRouteImport } from './routes/preise'
 import { Route as LeistungenRouteImport } from './routes/leistungen'
+import { Route as ErsteHilfeKursRouteImport } from './routes/erste-hilfe-kurs'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PreiseRoute = PreiseRouteImport.update({
@@ -23,6 +24,11 @@ const LeistungenRoute = LeistungenRouteImport.update({
   path: '/leistungen',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ErsteHilfeKursRoute = ErsteHilfeKursRouteImport.update({
+  id: '/erste-hilfe-kurs',
+  path: '/erste-hilfe-kurs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
   '/leistungen': typeof LeistungenRoute
   '/preise': typeof PreiseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
   '/leistungen': typeof LeistungenRoute
   '/preise': typeof PreiseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
   '/leistungen': typeof LeistungenRoute
   '/preise': typeof PreiseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/leistungen' | '/preise'
+  fullPaths: '/' | '/erste-hilfe-kurs' | '/leistungen' | '/preise'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/leistungen' | '/preise'
-  id: '__root__' | '/' | '/leistungen' | '/preise'
+  to: '/' | '/erste-hilfe-kurs' | '/leistungen' | '/preise'
+  id: '__root__' | '/' | '/erste-hilfe-kurs' | '/leistungen' | '/preise'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ErsteHilfeKursRoute: typeof ErsteHilfeKursRoute
   LeistungenRoute: typeof LeistungenRoute
   PreiseRoute: typeof PreiseRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LeistungenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/erste-hilfe-kurs': {
+      id: '/erste-hilfe-kurs'
+      path: '/erste-hilfe-kurs'
+      fullPath: '/erste-hilfe-kurs'
+      preLoaderRoute: typeof ErsteHilfeKursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ErsteHilfeKursRoute: ErsteHilfeKursRoute,
   LeistungenRoute: LeistungenRoute,
   PreiseRoute: PreiseRoute,
 }
