@@ -1,0 +1,88 @@
+import { Link } from "@tanstack/react-router";
+import { Instagram, Phone, Mail, MapPin } from "lucide-react";
+import logoAsset from "@/assets/miro-logo.png.asset.json";
+import { CONTACT, NAV_LINKS } from "@/lib/contact";
+
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <path d="M19.5 6.7a5.7 5.7 0 0 1-3.6-1.3v8.9a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v2.9a2.8 2.8 0 1 0 2 2.6V2h2.8a5.7 5.7 0 0 0 3.5 4.7v0z" />
+    </svg>
+  );
+}
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <path d="M20.5 3.5A11 11 0 0 0 3 17.4L1.5 23l5.8-1.5A11 11 0 1 0 20.5 3.5zm-8.5 17a9 9 0 0 1-4.6-1.3l-.3-.2-3.4.9.9-3.3-.2-.4A9 9 0 1 1 12 20.5zm5-6.8c-.3-.1-1.6-.8-1.8-.9s-.4-.1-.6.2-.7.9-.8 1-.3.2-.6 0a7.4 7.4 0 0 1-2.2-1.4 8 8 0 0 1-1.5-1.9c-.2-.3 0-.5.1-.6l.5-.6.2-.4a.5.5 0 0 0 0-.5l-.8-2c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-1 2.3c0 1.3 1 2.6 1.1 2.8s1.9 3 4.6 4.2c.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.6-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4z" />
+    </svg>
+  );
+}
+
+export function Footer() {
+  return (
+    <footer className="mt-24 bg-[#0a0a0a] text-white">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-4 lg:px-8">
+        <div>
+          <div className="rounded-lg bg-white p-3 inline-block">
+            <img src={logoAsset.url} alt="MIRO-DRIVE" className="h-10 w-auto" />
+          </div>
+          <p className="mt-4 text-sm text-white/70">
+            MIRO-DRIVE ist deine moderne Fahrschule für eine sichere, transparente und stressfreie Führerscheinausbildung.
+          </p>
+          <div className="mt-5 flex gap-3">
+            <a href={CONTACT.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp" className="rounded-full bg-primary p-2.5 hover:scale-105 transition-transform">
+              <WhatsAppIcon className="h-5 w-5" />
+            </a>
+            <a href={CONTACT.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="rounded-full bg-white/10 p-2.5 hover:bg-white/20">
+              <Instagram className="h-5 w-5" />
+            </a>
+            <a href={CONTACT.tiktok} target="_blank" rel="noopener" aria-label="TikTok" className="rounded-full bg-white/10 p-2.5 hover:bg-white/20">
+              <TikTokIcon className="h-5 w-5" />
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-white">Navigation</h3>
+          <ul className="mt-4 space-y-2 text-sm text-white/70">
+            {NAV_LINKS.map((l) => (
+              <li key={l.to}>
+                <Link to={l.to} className="hover:text-primary">{l.label}</Link>
+              </li>
+            ))}
+            <li><Link to="/ueber-uns" className="hover:text-primary">Über uns</Link></li>
+            <li><Link to="/faq" className="hover:text-primary">FAQ</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-white">Kontakt</h3>
+          <ul className="mt-4 space-y-3 text-sm text-white/70">
+            <li className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 text-primary" />{CONTACT.address}</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /><a href={`tel:${CONTACT.phone}`} className="hover:text-white">{CONTACT.phoneDisplay}</a></li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /><a href={`mailto:${CONTACT.email}`} className="hover:text-white">{CONTACT.email}</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-white">Öffnungszeiten</h3>
+          <ul className="mt-4 space-y-2 text-sm text-white/70">
+            {CONTACT.hours.map((h) => (
+              <li key={h.day} className="flex justify-between"><span>{h.day}</span><span>{h.time}</span></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <p>© {new Date().getFullYear()} MIRO-DRIVE Fahrschule. Alle Rechte vorbehalten.</p>
+          <div className="flex gap-5">
+            <Link to="/impressum" className="hover:text-white">Impressum</Link>
+            <Link to="/datenschutz" className="hover:text-white">Datenschutz</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

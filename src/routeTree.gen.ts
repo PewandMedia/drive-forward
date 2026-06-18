@@ -9,38 +9,289 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UeberUnsRouteImport } from './routes/ueber-uns'
+import { Route as TeamRouteImport } from './routes/team'
+import { Route as PreiseRouteImport } from './routes/preise'
+import { Route as LeistungenRouteImport } from './routes/leistungen'
+import { Route as KontaktRouteImport } from './routes/kontakt'
+import { Route as ImpressumRouteImport } from './routes/impressum'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as ErsteHilfeKursRouteImport } from './routes/erste-hilfe-kurs'
+import { Route as DatenschutzRouteImport } from './routes/datenschutz'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AngeboteRouteImport } from './routes/angebote'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
+const UeberUnsRoute = UeberUnsRouteImport.update({
+  id: '/ueber-uns',
+  path: '/ueber-uns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreiseRoute = PreiseRouteImport.update({
+  id: '/preise',
+  path: '/preise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeistungenRoute = LeistungenRouteImport.update({
+  id: '/leistungen',
+  path: '/leistungen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpressumRoute = ImpressumRouteImport.update({
+  id: '/impressum',
+  path: '/impressum',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ErsteHilfeKursRoute = ErsteHilfeKursRouteImport.update({
+  id: '/erste-hilfe-kurs',
+  path: '/erste-hilfe-kurs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DatenschutzRoute = DatenschutzRouteImport.update({
+  id: '/datenschutz',
+  path: '/datenschutz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AngeboteRoute = AngeboteRouteImport.update({
+  id: '/angebote',
+  path: '/angebote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/angebote': typeof AngeboteRoute
+  '/auth': typeof AuthRoute
+  '/datenschutz': typeof DatenschutzRoute
+  '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
+  '/faq': typeof FaqRoute
+  '/impressum': typeof ImpressumRoute
+  '/kontakt': typeof KontaktRoute
+  '/leistungen': typeof LeistungenRoute
+  '/preise': typeof PreiseRoute
+  '/team': typeof TeamRoute
+  '/ueber-uns': typeof UeberUnsRoute
+  '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/angebote': typeof AngeboteRoute
+  '/auth': typeof AuthRoute
+  '/datenschutz': typeof DatenschutzRoute
+  '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
+  '/faq': typeof FaqRoute
+  '/impressum': typeof ImpressumRoute
+  '/kontakt': typeof KontaktRoute
+  '/leistungen': typeof LeistungenRoute
+  '/preise': typeof PreiseRoute
+  '/team': typeof TeamRoute
+  '/ueber-uns': typeof UeberUnsRoute
+  '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/angebote': typeof AngeboteRoute
+  '/auth': typeof AuthRoute
+  '/datenschutz': typeof DatenschutzRoute
+  '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
+  '/faq': typeof FaqRoute
+  '/impressum': typeof ImpressumRoute
+  '/kontakt': typeof KontaktRoute
+  '/leistungen': typeof LeistungenRoute
+  '/preise': typeof PreiseRoute
+  '/team': typeof TeamRoute
+  '/ueber-uns': typeof UeberUnsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/angebote'
+    | '/auth'
+    | '/datenschutz'
+    | '/erste-hilfe-kurs'
+    | '/faq'
+    | '/impressum'
+    | '/kontakt'
+    | '/leistungen'
+    | '/preise'
+    | '/team'
+    | '/ueber-uns'
+    | '/admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/angebote'
+    | '/auth'
+    | '/datenschutz'
+    | '/erste-hilfe-kurs'
+    | '/faq'
+    | '/impressum'
+    | '/kontakt'
+    | '/leistungen'
+    | '/preise'
+    | '/team'
+    | '/ueber-uns'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/angebote'
+    | '/auth'
+    | '/datenschutz'
+    | '/erste-hilfe-kurs'
+    | '/faq'
+    | '/impressum'
+    | '/kontakt'
+    | '/leistungen'
+    | '/preise'
+    | '/team'
+    | '/ueber-uns'
+    | '/_authenticated/admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AngeboteRoute: typeof AngeboteRoute
+  AuthRoute: typeof AuthRoute
+  DatenschutzRoute: typeof DatenschutzRoute
+  ErsteHilfeKursRoute: typeof ErsteHilfeKursRoute
+  FaqRoute: typeof FaqRoute
+  ImpressumRoute: typeof ImpressumRoute
+  KontaktRoute: typeof KontaktRoute
+  LeistungenRoute: typeof LeistungenRoute
+  PreiseRoute: typeof PreiseRoute
+  TeamRoute: typeof TeamRoute
+  UeberUnsRoute: typeof UeberUnsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/ueber-uns': {
+      id: '/ueber-uns'
+      path: '/ueber-uns'
+      fullPath: '/ueber-uns'
+      preLoaderRoute: typeof UeberUnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preise': {
+      id: '/preise'
+      path: '/preise'
+      fullPath: '/preise'
+      preLoaderRoute: typeof PreiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leistungen': {
+      id: '/leistungen'
+      path: '/leistungen'
+      fullPath: '/leistungen'
+      preLoaderRoute: typeof LeistungenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impressum': {
+      id: '/impressum'
+      path: '/impressum'
+      fullPath: '/impressum'
+      preLoaderRoute: typeof ImpressumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/erste-hilfe-kurs': {
+      id: '/erste-hilfe-kurs'
+      path: '/erste-hilfe-kurs'
+      fullPath: '/erste-hilfe-kurs'
+      preLoaderRoute: typeof ErsteHilfeKursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/datenschutz': {
+      id: '/datenschutz'
+      path: '/datenschutz'
+      fullPath: '/datenschutz'
+      preLoaderRoute: typeof DatenschutzRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/angebote': {
+      id: '/angebote'
+      path: '/angebote'
+      fullPath: '/angebote'
+      preLoaderRoute: typeof AngeboteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +299,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AngeboteRoute: AngeboteRoute,
+  AuthRoute: AuthRoute,
+  DatenschutzRoute: DatenschutzRoute,
+  ErsteHilfeKursRoute: ErsteHilfeKursRoute,
+  FaqRoute: FaqRoute,
+  ImpressumRoute: ImpressumRoute,
+  KontaktRoute: KontaktRoute,
+  LeistungenRoute: LeistungenRoute,
+  PreiseRoute: PreiseRoute,
+  TeamRoute: TeamRoute,
+  UeberUnsRoute: UeberUnsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
