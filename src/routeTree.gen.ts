@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as PreiseRouteImport } from './routes/preise'
 import { Route as LeistungenRouteImport } from './routes/leistungen'
+import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as ErsteHilfeKursRouteImport } from './routes/erste-hilfe-kurs'
 import { Route as AngeboteRouteImport } from './routes/angebote'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,11 @@ const PreiseRoute = PreiseRouteImport.update({
 const LeistungenRoute = LeistungenRouteImport.update({
   id: '/leistungen',
   path: '/leistungen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ErsteHilfeKursRoute = ErsteHilfeKursRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/angebote': typeof AngeboteRoute
   '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
+  '/kontakt': typeof KontaktRoute
   '/leistungen': typeof LeistungenRoute
   '/preise': typeof PreiseRoute
   '/team': typeof TeamRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/angebote': typeof AngeboteRoute
   '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
+  '/kontakt': typeof KontaktRoute
   '/leistungen': typeof LeistungenRoute
   '/preise': typeof PreiseRoute
   '/team': typeof TeamRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/angebote': typeof AngeboteRoute
   '/erste-hilfe-kurs': typeof ErsteHilfeKursRoute
+  '/kontakt': typeof KontaktRoute
   '/leistungen': typeof LeistungenRoute
   '/preise': typeof PreiseRoute
   '/team': typeof TeamRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/angebote'
     | '/erste-hilfe-kurs'
+    | '/kontakt'
     | '/leistungen'
     | '/preise'
     | '/team'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/angebote'
     | '/erste-hilfe-kurs'
+    | '/kontakt'
     | '/leistungen'
     | '/preise'
     | '/team'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/angebote'
     | '/erste-hilfe-kurs'
+    | '/kontakt'
     | '/leistungen'
     | '/preise'
     | '/team'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AngeboteRoute: typeof AngeboteRoute
   ErsteHilfeKursRoute: typeof ErsteHilfeKursRoute
+  KontaktRoute: typeof KontaktRoute
   LeistungenRoute: typeof LeistungenRoute
   PreiseRoute: typeof PreiseRoute
   TeamRoute: typeof TeamRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/leistungen'
       fullPath: '/leistungen'
       preLoaderRoute: typeof LeistungenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/erste-hilfe-kurs': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AngeboteRoute: AngeboteRoute,
   ErsteHilfeKursRoute: ErsteHilfeKursRoute,
+  KontaktRoute: KontaktRoute,
   LeistungenRoute: LeistungenRoute,
   PreiseRoute: PreiseRoute,
   TeamRoute: TeamRoute,
