@@ -40,20 +40,61 @@ function Avatar({ name, src }: { name: string; src?: string | null }) {
 
 function TeamPage() {
   const { data: team } = useSuspenseQuery(teamQuery);
+  const instructors = team.filter((m) => (m.sort_order ?? 0) < 8);
+  const office = team.filter((m) => (m.sort_order ?? 0) >= 8);
+
+  const renderGroup = (members: typeof team) => (
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {members.map((m) => {
+        const languages = m.description?.startsWith("Sprachen:")
+          ? m.description.replace("Sprachen:", "").split(",").map((s) => s.trim()).filter(Boolean)
+          : [];
+        return (
+          <div
+            key={m.id}
+            className="group flex flex-col items-center rounded-3xl border bg-white p-8 text-center transition-all hover:-translate-y-1 hover:shadow-xl"
+          >
+            <Avatar name={m.name} src={m.image_url} />
+            <h3 className="mt-5 font-display text-xl">{m.name}</h3>
+            <p className="mt-1 text-sm font-bold text-primary">{m.role}</p>
+            {languages.length > 0 && (
+              <div className="mt-3 flex flex-wrap justify-center gap-1.5">
+                {languages.map((lang) => (
+                  <span key={lang} className="rounded-full border border-border bg-muted/50 px-2.5 py-0.5 text-xs text-muted-foreground">
+                    {lang}
+                  </span>
+                ))}
+              </div>
+            )}
+            {m.description && !m.description.startsWith("Sprachen:") && (
+              <p className="mt-3 text-sm text-muted-foreground">{m.description}</p>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+
   return (
     <SiteLayout>
       <PageHero eyebrow="Team" title="Lerne das Team von MIRO-DRIVE kennen." subtitle="Geduldig, erfahren und immer an deiner Seite – unser Team begleitet dich sicher bis zum Führerschein." />
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((m) => (
-            <div key={m.id} className="group flex flex-col items-center rounded-3xl border bg-white p-8 text-center transition-all hover:-translate-y-1 hover:shadow-xl">
-              <Avatar name={m.name} src={m.image_url} />
-              <h3 className="mt-5 font-display text-xl">{m.name}</h3>
-              <p className="mt-1 text-sm font-bold text-primary">{m.role}</p>
-              {m.description && <p className="mt-3 text-sm text-muted-foreground">{m.description}</p>}
-            </div>
-          ))}
-        </div>
+      <div className="mx-auto max-w-7xl space-y-16 px-4 py-16 sm:px-6 lg:px-8">
+        {instructors.length > 0 && (
+          <section>
+            <h2 className="mb-8 text-center font-display text-2xl text-primary sm:text-3xl">
+              Fahrlehrer:innen der Fahrschule MIRO-DRIVE
+            </h2>
+            {renderGroup(instructors)}
+          </section>
+        )}
+        {office.length > 0 && (
+          <section>
+            <h2 className="mb-8 text-center font-display text-2xl text-primary sm:text-3xl">
+              Bürokräfte der Fahrschule MIRO-DRIVE
+            </h2>
+            {renderGroup(office)}
+          </section>
+        )}
       </div>
     </SiteLayout>
   );
