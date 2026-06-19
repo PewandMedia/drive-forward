@@ -1,42 +1,18 @@
-## Ziel
-Jede der 8 Service-Karten auf der Leistungen-Seite erhält ein hochwertiges, KI-generiertes Bild, das thematisch passt und ein konsistentes, erstklassiges Erscheinungsbild ergibt.
+## Erste-Hilfe-Kurs Seite – Texte & Bild aktualisieren
 
-## Konsistente Bild-Sprache (für alle 8 Bilder)
-Damit es nicht wie Stock-Mischmasch wirkt, bekommen alle Bilder denselben visuellen Stil:
-- **Look:** Cinematic photography, soft natural light, fein körnig
-- **Farbpalette:** Anthrazit/Schwarz, Weiß, mit einem dezenten Akzent in MIRO-DRIVE Signal-Rot (#E63946-ähnlich)
-- **Stimmung:** modern, professionell, ruhig – kein generischer Stock-Look
-- **Format:** 16:9 (1024×576) für Card-Header
-- **Qualität:** `premium` (gpt-image-2) für sauberes Ergebnis ohne sichtbaren Text/Logos
+**Datenbank-Update** (`first_aid_info`)
+- Preis: `50 €` (bleibt)
+- Dauer: `8:00–16:00 Uhr` (ersetzt „9 Unterrichtseinheiten")
+- Termine: `Jeden Monat in der Fahrschule` (ersetzt „laufend nach Verfügbarkeit")
+- Beschreibung: „Dein Erste-Hilfe-Kurs für den Führerschein – 8 Stunden an einem Tag, kompakt und verständlich. Bereit? Melde dich einfach bei uns."
 
-## Bild-Briefs pro Karte
-1. **Führerscheinausbildung Klasse B** – Cockpit eines modernen Autos aus Beifahrerperspektive, Hände am Lenkrad, weiches Tageslicht
-2. **B197 Ausbildung** – Close-up Automatik-Wählhebel in modernem Innenraum, rote Akzent-Lichtreflexion
-3. **Theorieunterricht** – aufgeräumter Schulungsraum mit Stuhlreihen Richtung Whiteboard, weiches Fensterlicht, leer
-4. **Praxisstunden** – Fahrlehrer und Schüler:in im Auto von außen durch Windschutzscheibe gesehen, freundliche Atmosphäre
-5. **Sonderfahrten** – Autobahn bei Dämmerung, Lichtspuren der Scheinwerfer, dramatisch
-6. **Auffrischungsstunden** – Hände, die selbstbewusst ein Lenkrad halten, warmes Morgenlicht
-7. **Erste-Hilfe-Kurs** – Hände, die eine Erste-Hilfe-Übung an einer Trainingspuppe durchführen, klinisch sauber
-8. **Individuelle Angebote** – minimalistisches Stillleben: Autoschlüssel und rote Schleife auf hellem Tisch
+**Frontend-Texte** (`src/routes/erste-hilfe-kurs.tsx`)
+- PageHero subtitle: „Mach deinen Erste-Hilfe-Kurs direkt bei MIRO-DRIVE – 8 Stunden an einem Tag, jeden Monat in der Fahrschule."
+- Hinweistext über Kursinfo: „Der Kurs läuft von 8:00 bis 16:00 Uhr. Sichere dir deinen Platz – schnell und unkompliziert per WhatsApp oder Anruf."
 
-## Umsetzung
+**Neues KI-Bild**
+- `imagegen--generate_image` (premium, 1024×576) → `src/assets/erste-hilfe-hero.jpg`
+- Prompt: Cinematic close-up eines weißen Erste-Hilfe-Koffers mit großem rotem Kreuz auf anthrazit-grauem Hintergrund, weiches Studiolicht, fein körnig, MIRO-DRIVE Signalrot Akzent, 16:9, fotorealistisch, edel/minimalistisch
+- Einbindung: über dem „Was du bekommst"-Bereich als 16:9 Bild mit `rounded-2xl overflow-hidden`
 
-### 1. Bilder generieren
-- 8 Bilder mit `imagegen--generate_image` (model `premium`, 1024×576) erzeugen
-- Speicherort: `src/assets/leistungen/<slug>.jpg`
-- Jeder Prompt enthält die gemeinsame Stil-Klausel (Cinematic, Farbpalette, kein Text)
-
-### 2. Leistungen-Seite anpassen (`src/routes/leistungen.tsx`)
-- 8 Imports der generierten Bilder hinzufügen
-- Im `services`-Array pro Eintrag ein `image`-Feld ergänzen
-- Card-Layout erweitern:
-  - Oben: 16:9 Bild mit `rounded-t-2xl` und subtiler dunkler Gradient-Overlay-Ecke
-  - Icon-Badge schwebt **über** dem Bild unten links (statt im Inhalt) – wirkt premium
-  - Darunter Titel/Text/CTA wie bisher
-  - Hover: Bild leichter Zoom (`scale-105`), bestehende Card-Lift-Animation bleibt
-- `overflow-hidden` auf die Card setzen, damit der Bild-Zoom sauber maskiert wird
-
-### 3. Was unverändert bleibt
-- Texte, Reihenfolge, CTAs, Routing
-- Restliche Seiten und Komponenten
-- Farb-Tokens / Design-System
+**Unverändert**: Layout, Buttons, Standorte, Routing, Design-Tokens.
