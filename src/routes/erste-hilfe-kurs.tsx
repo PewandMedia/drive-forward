@@ -7,6 +7,7 @@ import { CONTACT } from "@/lib/contact";
 import { LocationCard } from "@/components/site/LocationCard";
 import { LOCATIONS } from "@/lib/locations";
 import { Heart, Calendar, Clock, FileText, GraduationCap, Phone } from "lucide-react";
+import ersteHilfeImg from "@/assets/erste-hilfe-hero.jpg";
 
 const faQuery = queryOptions({
   queryKey: ["first_aid_info"],
@@ -43,8 +44,11 @@ function FAPage() {
   ];
   return (
     <SiteLayout>
-      <PageHero eyebrow="Erste-Hilfe-Kurs" title="Erste-Hilfe-Kurs für deinen Führerschein" subtitle="Bei MIRO-DRIVE kannst du dich einfach über Erste-Hilfe-Kurse informieren und direkt eine Anfrage stellen." />
+      <PageHero eyebrow="Erste-Hilfe-Kurs" title="Erste-Hilfe-Kurs für deinen Führerschein" subtitle="Mach deinen Erste-Hilfe-Kurs direkt bei MIRO-DRIVE – 8 Stunden an einem Tag (8:00–16:00 Uhr), jeden Monat in der Fahrschule." />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
+        <div className="overflow-hidden rounded-2xl border shadow-sm">
+          <img src={ersteHilfeImg} alt="Erste-Hilfe-Koffer mit rotem Kreuz" width={1536} height={1024} loading="lazy" className="aspect-[16/9] w-full object-cover" />
+        </div>
         <div className="grid gap-12 lg:grid-cols-2">
         <div>
           <h2 className="font-display text-2xl uppercase sm:text-3xl">Was du bekommst</h2>
@@ -60,7 +64,7 @@ function FAPage() {
 
         <div>
           <h2 className="font-display text-2xl uppercase sm:text-3xl">Anmeldung & Infos</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Die Anmeldung zum Erste-Hilfe-Kurs erfolgt persönlich in einer unserer Filialen. Für Termine und Verfügbarkeit erreichst du uns telefonisch oder per WhatsApp.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Der Kurs läuft von 8:00 bis 16:00 Uhr und findet jeden Monat in unserer Fahrschule statt. Sichere dir deinen Platz – schnell und unkompliziert per WhatsApp oder Anruf.</p>
 
           {info && (
             <div className="mt-6 rounded-2xl border bg-muted/30 p-6">
