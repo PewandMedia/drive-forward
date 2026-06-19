@@ -1,9 +1,46 @@
-Setze die ausgewählte Design-Richtung "Bold Black Card" um in `src/routes/erste-hilfe-kurs.tsx`:
+## Ziel
+Die drei Preis-Teaser-Karten (Klasse B / B197 / B78) auf der Startseite sollen aufgewertet werden – mehr Kontrast, klarere Typografie, kräftigere Interaktion.
 
-- Linke Spalte (7/12): "Was du bekommst" mit großer Display-Headline (4xl→6xl), rotem Akzentstrich, dicke schwarze Top-Border, Benefit-Items als Zeilen mit rotem 48×48 Icon-Quadrat (Lucide-Icons bleiben), Hover-Zoom auf Icon.
-- Rechte Spalte (5/12): 
-  - Bild im 4:5-Format mit leicht rotierter Hintergrund-Karte, Dark-Gradient-Overlay, "Safe First"-Badge in Rot und kurzer Text.
-  - Schwarze Info-Karte mit "Anmeldung & Infos", grauem Beschreibungstext, 2-Spalten-Grid für Preis/Termine/Dauer (rote Label-Eyebrows), WhatsApp-Button (grün) + Anrufen-Button (weiß auf schwarz) als gleichwertige Flex-Buttons.
-  - Dezenter roter Blur-Glow als Decoration.
+## Ausgangspunkt
+Aktuell befindet sich die Sektion in `src/routes/index.tsx`, Zeilen 181–223. Die Karten sind gleichförmig weiß mit abgerundeten Ecken und wirken austauschbar.
 
-Echte Daten aus `first_aid_info` (Preis/Dauer/Dates) bleiben. CONTACT-Links, PageHero, Standorte-Sektion bleiben unverändert. Bestehendes Bild `erste-hilfe-side.jpg` wird im Hero-Bild der rechten Spalte verwendet. Alle Farben über semantische Tokens (`bg-primary`, `bg-foreground`, `text-primary-foreground`), nur WhatsApp-Grün bleibt als Marken-Hex.
+## Umsetzung
+
+### 1. Card-Redesign (Kinetic Editorial)
+- **Layout**: 3 Spalten beibehalten (`md:grid-cols-3`)
+- **Klasse B & B78** (nicht featured):
+  - Weißer Hintergrund, scharfe / nur leicht abgerundete Ecken
+  - 2px Rahmen in `border-black/5`, bei Hover auf `border-foreground` (schwarz)
+  - Schatten nur bei Hover (`hover:shadow-xl`)
+  - Icon-Chip: schwarzer Kreis (`bg-foreground`)
+  - Titel: `font-display text-3xl uppercase tracking-tighter`
+  - Tagline: uppercase, klein, `text-muted-foreground`
+  - Highlights: größere rote Punkte (`bg-primary`), fettere Texte
+  - Preis: „GRUNDBETRAG AB“ als sehr kleine Eyebrow, Preis in `text-4xl text-primary`
+  - Arrow-Button: quadratisch, Rahmen `border-black/10`, bei Hover komplett rot gefüllt mit weißem Pfeil
+- **Klasse B197** (featured):
+  - Komplett schwarzer Hintergrund (`bg-foreground text-white`)
+  - „BELIEBT“-Badge oben rechts in rot
+  - Icon-Chip in rot (`bg-primary`)
+  - Weiße Texte, rote Punkte, roter Preis
+  - Arrow-Button: `bg-white/10`, bei Hover rot gefüllt
+  - Leichte Skalierung (`scale-[1.03]`) und höherer Schatten (`shadow-2xl`) für Dominanz
+  - Kein sichtbarer Rahmen
+
+### 2. Sektions-Header anpassen
+- Titel und Eyebrow beibehalten, aber mehr Abstand (`mb-12` statt `mb-10`)
+- „Alle Preise ansehen“-Link beibehalten
+
+### 3. Technische Details
+- Keine neuen Abhängigkeiten
+- Keine Änderung an Datenlogik (`PRICE_CLASSES`, `priceFor`, Supabase-Query)
+- Tailwind-Klassen ausschließlich über existierende Design-Tokens (`primary`, `foreground`, `font-display`, `muted-foreground`, `border`)
+- Keine hartkodierten Farben (z. B. kein `#e11d2a`)
+
+## Dateien
+- `src/routes/index.tsx` – nur der PREISE TEASER-Kartenbereich (ca. Zeilen 181–223)
+
+## Nicht im Scope
+- Keine Änderungen an `/preise` (die Detail-Preisseite bleibt wie bisher)
+- Keine Änderungen an Animationen oder JavaScript-Logik
+- Keine neuen Komponenten oder Assets

@@ -178,42 +178,83 @@ function Index() {
             Alle Preise ansehen <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
           {PRICE_CLASSES.map((c) => {
             const grund = priceFor(c.key);
+            const featured = c.featured;
             return (
               <Link
                 key={c.key}
                 to="/preise"
                 className={[
-                  "group relative flex flex-col overflow-hidden rounded-3xl border bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-xl",
-                  c.featured ? "border-primary/40 ring-1 ring-primary/20" : "border-border",
+                  "group relative flex flex-col justify-between overflow-hidden p-8 transition-all duration-300",
+                  featured
+                    ? "z-10 bg-foreground text-white shadow-2xl md:scale-[1.03]"
+                    : "border-2 border-black/5 bg-white shadow-sm hover:-translate-y-1 hover:border-foreground hover:shadow-xl",
                 ].join(" ")}
               >
-                {c.featured && (
-                  <span className="absolute right-4 top-4 rounded-full bg-primary px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-primary-foreground">
+                {featured && (
+                  <span className="absolute right-0 top-0 bg-primary px-4 py-1 font-display text-[10px] uppercase tracking-widest text-primary-foreground">
                     Beliebt
                   </span>
                 )}
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-foreground text-white">
-                  <c.icon className="h-5 w-5" />
+                <div>
+                  <div
+                    className={[
+                      "mb-8 grid h-12 w-12 place-items-center rounded-full",
+                      featured ? "bg-primary text-primary-foreground" : "bg-foreground text-white",
+                    ].join(" ")}
+                  >
+                    <c.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mb-2 font-display text-3xl uppercase leading-tight tracking-tighter">
+                    Klasse {c.short}
+                  </h3>
+                  <p
+                    className={[
+                      "mb-6 text-xs font-semibold uppercase tracking-wider",
+                      featured ? "text-white/60" : "text-muted-foreground",
+                    ].join(" ")}
+                  >
+                    {c.tagline}
+                  </p>
+                  <ul className="mb-10 space-y-3">
+                    {c.highlights.map((h) => (
+                      <li key={h} className="flex items-center gap-3 text-sm font-bold">
+                        <span className="h-2 w-2 rounded-full bg-primary" />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="mt-4 font-display text-xl">Klasse {c.short}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{c.tagline}</p>
-                <ul className="mt-4 space-y-1.5 text-sm">
-                  {c.highlights.map((h) => (
-                    <li key={h} className="flex items-center gap-2 text-foreground/80">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" /> {h}
-                    </li>
-                  ))}
-                </ul>
                 {grund && (
-                  <div className="mt-5 flex items-end justify-between border-t pt-4">
+                  <div
+                    className={[
+                      "flex items-end justify-between border-t pt-6",
+                      featured ? "border-white/10" : "border-black/10",
+                    ].join(" ")}
+                  >
                     <div>
-                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Grundbetrag ab</p>
-                      <p className="font-display text-2xl text-primary">{grund}</p>
+                      <p
+                        className={[
+                          "mb-1 text-[10px] font-black uppercase tracking-[0.2em]",
+                          featured ? "text-white/40" : "text-muted-foreground",
+                        ].join(" ")}
+                      >
+                        Grundbetrag ab
+                      </p>
+                      <p className="font-display text-4xl text-primary">{grund}</p>
                     </div>
-                    <ArrowRight className="h-5 w-5 text-foreground/40 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                    <div
+                      className={[
+                        "flex h-10 w-10 items-center justify-center transition-colors",
+                        featured
+                          ? "bg-white/10 text-white group-hover:bg-primary"
+                          : "border border-black/10 text-foreground group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground",
+                      ].join(" ")}
+                    >
+                      <ArrowRight className="h-5 w-5" />
+                    </div>
                   </div>
                 )}
               </Link>
