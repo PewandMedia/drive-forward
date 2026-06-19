@@ -7,7 +7,7 @@ import { CONTACT } from "@/lib/contact";
 import { LocationCard } from "@/components/site/LocationCard";
 import { LOCATIONS } from "@/lib/locations";
 import { Heart, Calendar, Clock, FileText, GraduationCap, Phone } from "lucide-react";
-import ersteHilfeImg from "@/assets/erste-hilfe-hero.jpg";
+import ersteHilfeImg from "@/assets/erste-hilfe-side.jpg";
 
 const faQuery = queryOptions({
   queryKey: ["first_aid_info"],
@@ -46,10 +46,8 @@ function FAPage() {
     <SiteLayout>
       <PageHero eyebrow="Erste-Hilfe-Kurs" title="Erste-Hilfe-Kurs für deinen Führerschein" subtitle="Mach deinen Erste-Hilfe-Kurs direkt bei MIRO-DRIVE – 8 Stunden an einem Tag (8:00–16:00 Uhr), jeden Monat in der Fahrschule." />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-        <div className="overflow-hidden rounded-2xl border shadow-sm">
-          <img src={ersteHilfeImg} alt="Erste-Hilfe-Koffer mit rotem Kreuz" width={1536} height={1024} loading="lazy" className="aspect-[16/9] w-full object-cover" />
-        </div>
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid gap-12 lg:grid-cols-[1fr_360px] lg:items-start">
+        <div className="space-y-10">
         <div>
           <h2 className="font-display text-2xl uppercase sm:text-3xl">Was du bekommst</h2>
           <ul className="mt-6 space-y-3">
@@ -87,6 +85,12 @@ function FAPage() {
             </a>
           </div>
         </div>
+        </div>
+        <aside className="lg:sticky lg:top-24">
+          <div className="overflow-hidden rounded-2xl border shadow-sm">
+            <img src={ersteHilfeImg} alt="Erste-Hilfe-Koffer mit rotem Kreuz" width={1024} height={1280} loading="lazy" className="aspect-[4/5] w-full object-cover" />
+          </div>
+        </aside>
         </div>
 
         <div>
