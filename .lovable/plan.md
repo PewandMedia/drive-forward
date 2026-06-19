@@ -1,18 +1,25 @@
-## Erste-Hilfe-Kurs Seite – Texte & Bild aktualisieren
+## Ziel
+Die Erste-Hilfe-Kurs-Seite soll das Bild nicht mehr als riesiges Hero-Element nutzen, sondern dezent rechts neben den Informationen platzieren. Zusätzlich wird ein hochwertigeres KI-generiertes Bild erstellt.
 
-**Datenbank-Update** (`first_aid_info`)
-- Preis: `50 €` (bleibt)
-- Dauer: `8:00–16:00 Uhr` (ersetzt „9 Unterrichtseinheiten")
-- Termine: `Jeden Monat in der Fahrschule` (ersetzt „laufend nach Verfügbarkeit")
-- Beschreibung: „Dein Erste-Hilfe-Kurs für den Führerschein – 8 Stunden an einem Tag, kompakt und verständlich. Bereit? Melde dich einfach bei uns."
+## Änderungen
 
-**Frontend-Texte** (`src/routes/erste-hilfe-kurs.tsx`)
-- PageHero subtitle: „Mach deinen Erste-Hilfe-Kurs direkt bei MIRO-DRIVE – 8 Stunden an einem Tag, jeden Monat in der Fahrschule."
-- Hinweistext über Kursinfo: „Der Kurs läuft von 8:00 bis 16:00 Uhr. Sichere dir deinen Platz – schnell und unkompliziert per WhatsApp oder Anruf."
+### 1. Neues KI-Bild generieren
+- Prompt fokussiert auf: professioneller Erste-Hilfe-Kurs, rotes Kreuz, saubere minimalistische Ästhetik passend zum MIRO-DRIVE Design (Schwarz/Weiß/Rot)
+- Format: 3:4 oder 4:3 (portrait/compact), nicht 16:9, damit es als Seitenbild funktioniert
+- Speichern als `src/assets/erste-hilfe-hero-v2.jpg`
 
-**Neues KI-Bild**
-- `imagegen--generate_image` (premium, 1024×576) → `src/assets/erste-hilfe-hero.jpg`
-- Prompt: Cinematic close-up eines weißen Erste-Hilfe-Koffers mit großem rotem Kreuz auf anthrazit-grauem Hintergrund, weiches Studiolicht, fein körnig, MIRO-DRIVE Signalrot Akzent, 16:9, fotorealistisch, edel/minimalistisch
-- Einbindung: über dem „Was du bekommst"-Bereich als 16:9 Bild mit `rounded-2xl overflow-hidden`
+### 2. Layout-Umbau in `src/routes/erste-hilfe-kurs.tsx`
+- Das bestehende 16:9-Vollbreiten-Bild (Zeile 49–51) wird entfernt
+- Die 2-Spalten-Sektion (Zeile 52–90) wird erweitert zu einer 3-Spalten- oder breiteren 2-Spalten-Anordnung:
+  - Linke Seite: "Was du bekommst" + "Anmeldung & Infos" gestapelt
+  - Rechte Seite: Das neue Bild als kompaktes Seitenbild, z.B. `max-w-sm` oder `max-w-md`, mit `rounded-2xl` und `object-cover`
+- Das Bild nimmt maximal ~40 % der Breite ein und ist auf gleicher Höhe wie die Info-Boxen
 
-**Unverändert**: Layout, Buttons, Standorte, Routing, Design-Tokens.
+### 3. Keine Änderungen an
+- PageHero (bleibt oben)
+- Datenbank / first_aid_info
+- Standorte-Sektion
+- Kontakt-Buttons, Texte, Navigation
+
+## Ergebnis
+Die Seite wirkt aufgeräumter. Das Bild unterstützt statt zu dominieren. Das neue KI-Bild passt optisch besser zur Markenidentität.
