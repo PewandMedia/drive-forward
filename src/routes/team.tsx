@@ -88,12 +88,35 @@ function TeamPage() {
     <SiteLayout>
       <PageHero eyebrow="Team" title="Lerne das Team von MIRO-DRIVE kennen." subtitle="Geduldig, erfahren und immer an deiner Seite – unser Team begleitet dich sicher bis zum Führerschein." />
       <div className="mx-auto max-w-7xl space-y-16 px-4 py-16 sm:px-6 lg:px-8">
-        {instructors.length > 0 && (
+        {(owner || otherInstructors.length > 0) && (
           <section>
-            <h2 className="mb-8 text-center font-display text-2xl text-primary sm:text-3xl">
+            <h2 className="mb-10 text-center font-display text-2xl text-primary sm:text-3xl">
               Fahrlehrer:innen der Fahrschule MIRO-DRIVE
             </h2>
-            {renderGroup(instructors)}
+            {owner && (
+              <div className="mb-12 flex justify-center">
+                <div className="group flex w-full max-w-md flex-col items-center rounded-3xl border-2 border-primary/30 bg-white p-10 text-center shadow-lg transition-all hover:-translate-y-1 hover:shadow-2xl">
+                  <Avatar name={owner.name} src={owner.image_url} size="lg" />
+                  <h3 className="mt-6 font-display text-3xl">{owner.name}</h3>
+                  <p className="mt-2 text-base font-bold text-primary">{owner.role}</p>
+                  {(() => {
+                    const langs = renderLanguages(owner.description);
+                    return langs.length > 0 ? (
+                      <div className="mt-4 flex flex-wrap justify-center gap-1.5">
+                        {langs.map((lang) => (
+                          <span key={lang} className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground">
+                            {lang}
+                          </span>
+                        ))}
+                      </div>
+                    ) : owner.description ? (
+                      <p className="mt-4 text-sm text-muted-foreground">{owner.description}</p>
+                    ) : null;
+                  })()}
+                </div>
+              </div>
+            )}
+            {otherInstructors.length > 0 && renderGroup(otherInstructors)}
           </section>
         )}
         {office.length > 0 && (
