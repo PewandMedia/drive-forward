@@ -54,7 +54,7 @@
   --color-brand-foreground: var(--brand-foreground);
   --color-ink: var(--ink);
   --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
 :root {

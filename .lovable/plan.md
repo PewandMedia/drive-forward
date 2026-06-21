@@ -1,30 +1,26 @@
-# Typografie-Update: Klassisch & Premium
+## Ziel
+Die gesamte Seite soll eine einheitlich klassische, serifenbetonte Schrift erhalten — nicht nur die Headlines, sondern auch Fließtext, Navigation, Buttons und UI-Elemente.
 
-Aktuell nutzt die Seite "Archivo Black" (sehr fett/laut) und "Manrope". Das wirkt eher sportlich als klassisch.
+## Aktueller Stand
+- Headlines: `Playfair Display` (Serif)
+- Body/UI: `Inter` (Sans-Serif)
 
-## Neue Schriftwahl
+## Geplante Änderungen
 
-Kombination, die viele Top-Marken (Apple, Stripe, Linear, Vercel, NYT-Stil Editorials) als Referenz nutzen:
+### 1. Google Fonts in `src/routes/__root.tsx`
+- Entfernen: `Inter`
+- Erweitern: `Playfair Display` um die Gewichte 400, 500, 600, 700, 800 (damit alle Schriftstufen von dünn bis fett abgedeckt sind)
+- Ein einzelner Font-Request für `Playfair Display` reicht dann für die komplette Seite
 
-- **Headlines:** `Playfair Display` — klassische, elegante Serif (zeitlos, hochwertig, Editorial-Look)
-- **Body & UI:** `Inter` — der De-facto-Standard moderner Top-Tech-Firmen (sauber, neutral, exzellente Lesbarkeit)
+### 2. Design-Tokens in `src/styles.css`
+- `--font-sans` auf `"Playfair Display", Georgia, "Times New Roman", serif` setzen
+- `--font-display` bleibt auf `Playfair Display` (keine Änderung nötig)
+- Body-Font in `@layer base` auf `var(--font-sans)` belassen — dadurch wird automatisch die Serif überall angewendet
+- Headline-Styles (h1, h2, h3, .font-display) bleiben erhalten
 
-Alternativ falls reiner Sans gewünscht: Inter für alles (Apple/Stripe-Stil). Aktuell gehe ich von der Serif+Sans-Kombi aus, weil "klassisch" gewünscht ist.
+### 3. Visuelle Feinabstimmung (optional, falls nötig)
+- Falls Buttons/Navigation mit Serif zu "buchstäblich" wirken, leichte Anpassung der `letter-spacing`-Werte oder `font-weight` prüfen
 
-## Umsetzung
-
-1. **`src/routes/__root.tsx`** — Google-Fonts-Links austauschen:
-   - Entfernen: Archivo Black, Manrope
-   - Hinzufügen: `Playfair Display` (500, 600, 700) + `Inter` (400, 500, 600, 700)
-   - Inkl. `preconnect` zu fonts.googleapis.com / fonts.gstatic.com
-
-2. **`src/styles.css`** — `@theme` Tokens aktualisieren:
-   - `--font-display: "Playfair Display", Georgia, serif;`
-   - `--font-sans: "Inter", system-ui, sans-serif;`
-   - Letter-spacing der Headlines leicht reduzieren (Serifs brauchen weniger Tracking als Archivo Black): `letter-spacing: -0.02em`
-
-3. Keine Komponenten-Änderungen nötig — `font-display` und `font-sans` werden bereits über die Tokens aufgelöst.
-
-## Nicht im Scope
-- Layout, Farben, Hero-Bild bleiben unverändert.
-- Keine Änderung an Buttons, Komponenten, Spacing.
+## Was sich NICHT ändert
+- Farben, Layout, Spacing, Hero-Bild, Komponenten-Struktur
+- Dark-Mode-Variablen
