@@ -10,6 +10,7 @@ import { LocationCard } from "@/components/site/LocationCard";
 import { LOCATIONS } from "@/lib/locations";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ReviewsSection } from "@/components/site/ReviewsSection";
+import { InstagramSection } from "@/components/site/InstagramSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -486,6 +487,7 @@ function Index() {
 
       {/* REVIEWS – moved down to keep above-the-fold focused on services */}
       <ReviewsSection />
+      <InstagramSection />
     </SiteLayout>
   );
 }

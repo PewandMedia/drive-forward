@@ -86,6 +86,39 @@ export type Database = {
         }
         Relationships: []
       }
+      instagram_posts: {
+        Row: {
+          active: boolean
+          caption: string | null
+          created_at: string
+          id: string
+          image_url: string
+          post_url: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url: string
+          post_url?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string
+          post_url?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       offers: {
         Row: {
           active: boolean
