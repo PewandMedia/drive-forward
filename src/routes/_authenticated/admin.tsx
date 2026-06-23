@@ -61,12 +61,10 @@ function AdminPage() {
         <Tabs defaultValue="prices" className="mt-8">
           <TabsList className="flex flex-wrap">
             <TabsTrigger value="prices">Preise</TabsTrigger>
-            <TabsTrigger value="offers">Angebote</TabsTrigger>
             <TabsTrigger value="team">Team</TabsTrigger>
             <TabsTrigger value="first_aid">Erste-Hilfe</TabsTrigger>
           </TabsList>
           <TabsContent value="prices"><PricesAdmin /></TabsContent>
-          <TabsContent value="offers"><OffersAdmin /></TabsContent>
           <TabsContent value="team"><TeamAdmin /></TabsContent>
           <TabsContent value="first_aid"><FirstAidAdmin /></TabsContent>
         </Tabs>
