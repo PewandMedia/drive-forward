@@ -100,14 +100,28 @@ function PricesAdmin() {
       <div className="overflow-x-auto rounded-xl border bg-white">
         <table className="w-full text-sm">
           <thead className="bg-muted/50 text-left text-xs uppercase">
-            <tr><th className="p-3">Kategorie</th><th className="p-3">Titel</th><th className="p-3">Preis</th><th className="p-3">Aktiv</th><th className="p-3 text-right">Aktion</th></tr>
+            <tr><th className="p-3">Kategorie</th><th className="p-3">Titel</th><th className="p-3">Preis</th><th className="p-3">Angebot</th><th className="p-3">Aktiv</th><th className="p-3 text-right">Aktion</th></tr>
           </thead>
           <tbody>
             {data.map((p) => (
               <tr key={p.id} className="border-t">
                 <td className="p-3 font-bold">{p.category}</td>
                 <td className="p-3">{p.title}<div className="text-xs text-muted-foreground">{p.description}</div></td>
-                <td className="p-3 text-primary">{p.price}</td>
+                <td className="p-3">
+                  {p.offer_active && p.old_price && (
+                    <span className="mr-1 text-xs text-muted-foreground line-through">{p.old_price}</span>
+                  )}
+                  <span className="text-primary">{p.price}</span>
+                </td>
+                <td className="p-3">
+                  {p.offer_active ? (
+                    <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-black uppercase text-primary-foreground">
+                      {p.offer_label || "Aktion"}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">–</span>
+                  )}
+                </td>
                 <td className="p-3"><Switch checked={p.active} onCheckedChange={(v) => toggleActive.mutate({ id: p.id, active: v })} /></td>
                 <td className="p-3"><div className="flex justify-end gap-2"><PriceDialog initial={p} /><Button size="icon" variant="ghost" onClick={() => del.mutate(p.id)}><Trash2 className="h-4 w-4" /></Button></div></td>
               </tr>
