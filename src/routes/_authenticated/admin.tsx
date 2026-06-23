@@ -63,10 +63,12 @@ function AdminPage() {
             <TabsTrigger value="prices">Preise</TabsTrigger>
             <TabsTrigger value="team">Team</TabsTrigger>
             <TabsTrigger value="first_aid">Erste-Hilfe</TabsTrigger>
+            <TabsTrigger value="instagram">Instagram</TabsTrigger>
           </TabsList>
           <TabsContent value="prices"><PricesAdmin /></TabsContent>
           <TabsContent value="team"><TeamAdmin /></TabsContent>
           <TabsContent value="first_aid"><FirstAidAdmin /></TabsContent>
+          <TabsContent value="instagram"><InstagramAdmin /></TabsContent>
         </Tabs>
       </div>
     </SiteLayout>
