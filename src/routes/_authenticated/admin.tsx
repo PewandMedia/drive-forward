@@ -146,11 +146,20 @@ function PriceDialog({ initial }: { initial?: any }) {
         price: String(form.get("price") || ""),
         sort_order: Number(form.get("sort_order") || 0),
         active: form.get("active") === "on",
+        offer_active: form.get("offer_active") === "on",
+        old_price: String(form.get("old_price") || "") || null,
+        offer_label: String(form.get("offer_label") || "") || null,
       };
       if (isEdit) { const { error } = await supabase.from("prices").update(row).eq("id", initial.id); if (error) throw error; }
       else { const { error } = await supabase.from("prices").insert(row); if (error) throw error; }
     },
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-prices"] }); qc.invalidateQueries({ queryKey: ["prices"] }); toast.success("Gespeichert"); setOpen(false); },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-prices"] });
+      qc.invalidateQueries({ queryKey: ["prices"] });
+      qc.invalidateQueries({ queryKey: ["home-prices"] });
+      qc.invalidateQueries({ queryKey: ["nav-active-offer"] });
+      toast.success("Gespeichert"); setOpen(false);
+    },
     onError: (e: any) => toast.error(e.message),
   });
   return (
@@ -168,6 +177,17 @@ function PriceDialog({ initial }: { initial?: any }) {
           <div className="grid grid-cols-2 gap-3">
             <div><Label>Preis</Label><Input name="price" required defaultValue={initial?.price} placeholder="z. B. 60 €" /></div>
             <div><Label>Sortierung</Label><Input name="sort_order" type="number" defaultValue={initial?.sort_order ?? 0} /></div>
+          </div>
+          <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
+            <label className="flex items-center gap-2 text-sm font-bold">
+              <input type="checkbox" name="offer_active" defaultChecked={initial?.offer_active ?? false} />
+              Angebot / Aktion aktiv
+            </label>
+            <p className="mt-1 text-xs text-muted-foreground">Wenn aktiv, wird der alte Preis durchgestrichen und ein Aktions-Badge angezeigt.</p>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <div><Label>Alter Preis (durchgestrichen)</Label><Input name="old_price" defaultValue={initial?.old_price ?? ""} placeholder="z. B. 299 €" /></div>
+              <div><Label>Aktions-Label</Label><Input name="offer_label" defaultValue={initial?.offer_label ?? ""} placeholder="z. B. -30% / Sommer-Aktion" /></div>
+            </div>
           </div>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="active" defaultChecked={initial?.active ?? true} /> Aktiv</label>
           <DialogFooter><Button type="submit" className="rounded-full">Speichern</Button></DialogFooter>
