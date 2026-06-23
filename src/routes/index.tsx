@@ -171,13 +171,18 @@ function Index() {
       </section>
 
       {/* REVIEWS */}
-      <ReviewsSection />
-
       {/* PREISE TEASER */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary">Preise & Klassen</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">Preise & Klassen</span>
+              {hasActiveOffer && (
+                <Link to="/preise" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[10px] font-black uppercase tracking-wider text-primary-foreground shadow animate-pulse">
+                  <Sparkles className="h-3 w-3" /> Aktion läuft
+                </Link>
+              )}
+            </div>
             <h2 className="mt-2 text-4xl sm:text-5xl lg:text-6xl">Drei Klassen, transparente Preise.</h2>
             <p className="mt-4 text-muted-foreground">
               Wir bilden in Klasse B, B197 und B78 aus – wähle die, die zu dir passt. Alle Preise sind offen einsehbar.
