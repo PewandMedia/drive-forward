@@ -1,34 +1,22 @@
-## Beobachtete Probleme
-- Beim Scrollen ruckelt es, besonders auf dem Handy (390×844). Hauptursachen: viele große `blur-3xl`-Ebenen, gleichzeitig animierte `animate-pulse`-Badges, `transition-all`-Hover-Effekte auf vielen Karten, und mehrere `bg-[radial-gradient]`-Layer im Hero/Preise/Reviews-Bereich.
-- Ein wiederkehrender Bug: nach Edits springt die Seite "nach oben" / lädt nicht zu Ende. Ursache ist ein veralteter Vite-Modul-Chunk (`Failed to fetch dynamically imported module: …tanstack-start-client-entry`). Das tritt auf, wenn der Router nach einem Hot-Reload nicht sauber neulädt – kann durch einen kleinen Fallback abgefangen werden, der bei Chunk-Load-Fehler automatisch `location.reload()` macht.
-- Navbar-Query (`nav-active-offer`) wird auf jeder Route neu ausgeführt, da `staleTime` zwar 60s ist, aber `refetchOnWindowFocus` Default an. Das verursacht beim Tabwechsel kurzes Layout-Shift im Header.
+## Hero: Bild & Text nebeneinander (auch mobil) + größeres Bild
 
-## Was geändert wird
+Anpassungen in `src/routes/index.tsx` im HERO-Block:
 
-### 1. Visuelle Effekte entschärfen (`src/routes/index.tsx`, `src/components/site/ReviewsSection.tsx`, `src/routes/preise.tsx`)
-- Große `blur-3xl`-Hintergründe nur noch auf `lg:block` zeigen – auf Mobile komplett weglassen. Das ist der größte Perf-Gewinn beim Scrollen.
-- `animate-pulse` auf den "Aktion läuft"-Badges entfernen (Header + Startseite). Stattdessen statisches rotes Badge – fällt immer noch auf, ohne Continuous-Repaint.
-- Auf großen Karten `transition-all` ersetzen durch gezieltes `transition-colors transition-transform` (vermeidet das Re-Layouten auf jeden Stilwechsel).
-- Den rotierenden `conic-gradient`-Overlay auf der „featured" Preis-Karte entfernen – sieht hübsch aus, kostet aber ständig Repaint.
+1. **Grid auf allen Breakpoints zweispaltig**
+   - Aktuell: `grid` mit `lg:grid-cols-[1.05fr_1.25fr]` → mobil einspaltig.
+   - Neu: `grid-cols-[1.1fr_1fr]` schon ab Mobile, `gap-4 sm:gap-8 lg:gap-12`, `px-3 sm:px-6 lg:px-8`, `py-10 sm:py-16 lg:py-24`.
 
-### 2. Bilder & Lazy-Loading
-- `loading="lazy"` und `decoding="async"` auf Below-the-Fold-Bildern (Team-Avatare, Hero-Mini-Avatare, Location-Karten-Bilder, falls vorhanden) ergänzen.
-- Hero-Bild bleibt `eager` + `fetchPriority="high"`.
+2. **Text-Spalte mobilfreundlich verkleinern** (damit beide Spalten Platz haben)
+   - `h1`: `text-2xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl`, `leading-[1.05]`.
+   - Badge, Paragraph, Buttons: kleinere Mobile-Größen (`text-[10px] sm:text-xs`, `text-sm sm:text-base`, Button-Padding `px-4 py-2.5 sm:px-6 sm:py-3.5`, `text-xs sm:text-sm`, `flex-col sm:flex-row` für Buttons, damit sie nicht zu viel Breite ziehen).
+   - Google-Bewertungs-Zeile bleibt, kleinere Schrift mobil.
 
-### 3. Chunk-Reload-Bug abfangen (`src/router.tsx` oder `src/routes/__root.tsx`)
-- Globalen `window.addEventListener('error', …)`-Handler für `vite:preloadError` (bzw. Message-Match auf "Failed to fetch dynamically imported module") registrieren, der `window.location.reload()` aufruft. Das ist der offizielle Vite-Workaround und beseitigt das „springt nach oben / weiße Seite"-Verhalten nach Deploys/Edits.
+3. **Bild-Spalte: größer & nebeneinander**
+   - Wrapper: `-mr-4 sm:-mr-6 lg:-mr-12 xl:-mr-24` (Bild läuft am rechten Rand raus, wirkt größer).
+   - `<img>`: `w-full scale-110 sm:scale-100` für mehr Mobile-Präsenz, `object-contain`.
+   - Glow/Streifen-Deko: auch mobil sichtbar machen (block statt hidden) für den Bild-Akzent.
 
-### 4. Navbar-Query stabilisieren (`src/components/site/Navbar.tsx`)
-- `refetchOnWindowFocus: false`, `refetchOnMount: false` auf den `nav-active-offer`-Query. Bleibt 60s frisch, Layout-Shift entfällt.
+4. **Min-Heights anpassen**
+   - `min-h-[480px] sm:min-h-[600px] lg:min-h-[720px]` damit es mobil nicht überdimensioniert wird.
 
-### 5. Kleine Aufräumarbeiten
-- `useEffect`-Scroll-Listener im Navbar bekommt `{ passive: true }` (ist schon so – nur prüfen) und einen `requestAnimationFrame`-Throttle, damit `setScrolled` nicht pro Scrollevent neu rendert.
-
-## Bewusst nicht in scope
-- Keine Änderung an Inhalten, Layout-Struktur, Farben, Fonts.
-- Keine neuen Libraries.
-- Kein Umbau auf Image-CDN/`vite-imagetools` (großer Eingriff, separat).
-- Keine DB-/Migration-Änderungen.
-
-## Erwartetes Ergebnis
-Spürbar flüssigeres Scrollen besonders auf Mobile, kein „Sprung nach oben" mehr nach Code-Updates, ruhigerer Header.
+Keine Änderungen an Logik, Daten, weiteren Sections oder anderen Routen.

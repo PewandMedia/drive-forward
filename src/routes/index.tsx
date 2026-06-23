@@ -111,53 +111,53 @@ function Index() {
     <SiteLayout>
       {/* HERO */}
       <section className="relative overflow-hidden bg-white">
-        <div className="pointer-events-none absolute right-0 top-0 hidden h-full w-[58%] -skew-x-12 bg-primary/[0.04] lg:block" />
-        <div className="pointer-events-none absolute right-0 top-1/2 h-3 w-[60%] -skew-x-12 bg-primary" />
-        <div className="relative mx-auto grid min-h-[600px] max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:min-h-[720px] lg:grid-cols-[1.05fr_1.25fr] lg:py-24 lg:px-8">
-          <div className="animate-fade-up">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Fahrschule MIRO-DRIVE
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-[58%] -skew-x-12 bg-primary/[0.04]" />
+        <div className="pointer-events-none absolute right-0 top-1/2 h-2 w-[60%] -skew-x-12 bg-primary sm:h-3" />
+        <div className="relative mx-auto grid min-h-[420px] max-w-7xl grid-cols-[1.1fr_1fr] items-center gap-3 px-3 py-8 sm:min-h-[600px] sm:gap-8 sm:px-6 sm:py-16 lg:min-h-[720px] lg:grid-cols-[1.05fr_1.25fr] lg:gap-12 lg:py-24 lg:px-8">
+          <div className="animate-fade-up min-w-0">
+            <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary sm:mb-5 sm:gap-2 sm:px-3 sm:py-1 sm:text-xs">
+              <span className="h-1 w-1 rounded-full bg-primary sm:h-1.5 sm:w-1.5" /> Fahrschule MIRO-DRIVE
             </div>
-            <h1 className="text-5xl leading-[1.02] sm:text-6xl lg:text-7xl xl:text-8xl">
+            <h1 className="text-2xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
               Dein Führerschein <br />
               <span className="text-primary">startet hier</span> – <br />
               modern, sicher <br />
               und stressfrei.
             </h1>
-            <p className="mt-6 max-w-xl text-base text-muted-foreground sm:text-lg">
+            <p className="mt-3 max-w-xl text-xs text-muted-foreground sm:mt-6 sm:text-base lg:text-lg">
               Bei MIRO-DRIVE lernst du Autofahren mit professioneller Betreuung, modernen Fahrzeugen, transparenter Beratung und einer Ausbildung, die dich wirklich sicher auf die Straße bringt.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:scale-[1.03]">
-                <MessageCircle className="h-4 w-4" /> WhatsApp schreiben
+            <div className="mt-4 flex flex-col flex-wrap gap-2 sm:mt-8 sm:flex-row sm:gap-3">
+              <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-2 text-[11px] font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:scale-[1.03] sm:gap-2 sm:px-6 sm:py-3.5 sm:text-sm">
+                <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4" /> WhatsApp
               </a>
-              <Link to="/kontakt" className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-bold text-white hover:bg-foreground/90">
-                <MapPin className="h-4 w-4" /> Standorte & Route
+              <Link to="/kontakt" className="inline-flex items-center justify-center gap-1.5 rounded-full bg-foreground px-3 py-2 text-[11px] font-bold text-white hover:bg-foreground/90 sm:gap-2 sm:px-6 sm:py-3.5 sm:text-sm">
+                <MapPin className="h-3 w-3 sm:h-4 sm:w-4" /> Standorte
               </Link>
-              <Link to="/preise" className="inline-flex items-center gap-2 rounded-full border-2 border-foreground bg-white px-6 py-3.5 text-sm font-bold text-foreground transition-colors hover:bg-foreground hover:text-white">
-                Preise ansehen
+              <Link to="/preise" className="inline-flex items-center justify-center gap-1.5 rounded-full border-2 border-foreground bg-white px-3 py-2 text-[11px] font-bold text-foreground transition-colors hover:bg-foreground hover:text-white sm:gap-2 sm:px-6 sm:py-3.5 sm:text-sm">
+                Preise
               </Link>
             </div>
-            <p className="mt-5 text-xs uppercase tracking-wider text-muted-foreground">
+            <p className="mt-3 text-[9px] uppercase tracking-wider text-muted-foreground sm:mt-5 sm:text-xs">
               Anmeldung nur persönlich in einer unserer Filialen
             </p>
             <a
               href={CONTACT.googleProfileUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-semibold text-muted-foreground transition-colors hover:text-foreground sm:mt-4 sm:gap-2 sm:text-xs"
             >
               <span className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-primary text-primary" />
+                  <Star key={i} className="h-3 w-3 fill-primary text-primary sm:h-3.5 sm:w-3.5" />
                 ))}
               </span>
               <span className="font-bold text-foreground">{CONTACT.googleRating}</span>
               <span>·</span>
-              <span>{CONTACT.googleReviewCount} Google-Bewertungen</span>
+              <span>{CONTACT.googleReviewCount} Bewertungen</span>
             </a>
           </div>
-          <div className="relative lg:-mr-12 xl:-mr-24">
+          <div className="relative -mr-3 sm:-mr-6 lg:-mr-12 xl:-mr-24">
             <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[110%] w-[110%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,theme(colors.primary/25),transparent_65%)] blur-2xl" />
             <div className="pointer-events-none absolute -right-6 top-8 -z-10 hidden h-2 w-40 bg-foreground lg:block" />
             <img
@@ -167,7 +167,7 @@ function Index() {
               height={1024}
               loading="eager"
               fetchPriority="high"
-              className="animate-drive-in-left relative w-full drop-shadow-[0_30px_40px_rgba(0,0,0,0.25)]"
+              className="animate-drive-in-left relative w-full scale-125 object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.25)] sm:scale-110 lg:scale-100 lg:drop-shadow-[0_30px_40px_rgba(0,0,0,0.25)]"
             />
           </div>
         </div>
