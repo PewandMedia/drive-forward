@@ -277,51 +277,6 @@ function Index() {
         </div>
       </section>
 
-      {/* CURRENT OFFERS */}
-      <section className="bg-muted/30 py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-2xl">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary">Aktuelle Angebote</span>
-              <h2 className="mt-2 text-4xl sm:text-5xl lg:text-6xl">
-                {homeOffers.length > 0 ? "Spar jetzt bei deiner Anmeldung." : "Bald wieder neue Aktionen."}
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                {homeOffers.length > 0
-                  ? "Unsere laufenden Aktions-Angebote – nur für kurze Zeit verfügbar."
-                  : "Aktuell läuft keine Aktion. Schau bald wieder vorbei – wir machen regelmäßig neue Angebote."}
-              </p>
-            </div>
-            <Link to="/angebote" className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
-              Alle Angebote <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          {homeOffers.length > 0 ? (
-            <div className="grid gap-8 lg:grid-cols-2">
-              {homeOffers.map((o) => (
-                <OfferFlyer key={o.id} offer={o as unknown as OfferFlyerData} compact />
-              ))}
-            </div>
-          ) : (
-            <Link
-              to="/angebote"
-              className="flex items-center justify-between rounded-3xl border bg-white p-8 transition-all hover:-translate-y-0.5 hover:shadow-lg"
-            >
-              <div className="flex items-center gap-4">
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">
-                  <Sparkles className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-display text-lg">Keine aktive Aktion gerade</p>
-                  <p className="text-sm text-muted-foreground">Aber unsere Standardpreise sind fair – schau dir die Klassen an.</p>
-                </div>
-              </div>
-              <ArrowRight className="h-5 w-5 text-foreground/40" />
-            </Link>
-          )}
-        </div>
-      </section>
-
       {/* ERSTE HILFE KURS TEASER */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl border bg-white">
