@@ -1,34 +1,31 @@
 ## Ziel
-Auf `/preise` sollen pro Klasse (B, B197, B78) die Ausbildungs-Details aus den PDFs sichtbar werden – Sonderfahrten, Theorie-Doppelstunden, Mindestalter, Voraussetzungen. So wird der Unterschied zwischen den Klassen klar, auch wenn die Preise gleich sind.
+Unter den Google-Bewertungen auf der Startseite einen Instagram-Feed von @miro_drive einbauen, der die letzten Beiträge (vor allem „Führerschein bestanden"-Posts) zeigt, scrollbar ist und beim Klick zum jeweiligen Beitrag bzw. Profil führt – als Credibility-Booster.
 
-## Inhalte je Klasse (aus PDF + Standardwerte)
+## Aktueller Stand
+- Tabelle `instagram_posts` existiert bereits (image_url, caption, post_url, sort_order, active).
+- Komponente `src/components/site/InstagramSection.tsx` zeigt aktuell ein 3-Spalten-Grid mit max. 6 Posts und ist bereits unter den Reviews eingebunden.
+- Admin-Tab „Instagram" existiert zum Pflegen der Beiträge.
+- Aktuell sind keine Beiträge in der DB → Section rendert nichts.
 
-**Klasse B (Schalter)**
-- Mindestalter: 18 J. (17 bei BF17)
-- Sonderfahrten: 5 Überland · 4 Autobahn · 3 Dunkel
-- Theorie: 12 Grundstoff + 2 Zusatzstoff (Doppelstunden à 90 Min.)
-- Übungsstunden: nach Bedarf
-- Voraussetzungen: Lichtbildausweis, Sehtest, Erste-Hilfe-Kurs
-- Prüfung: Theorie + Praxis
+## Neuer Ansatz
+Da Instagram direktes Scraping blockiert und du keine Wahl getroffen hast, gehe ich mit der robustesten Lösung ohne laufende Kosten und ohne API-Setup:
 
-**Klasse B197 (Automatik-Ausbildung, gilt für Schalter)**
-- Wie Klasse B, zusätzlich: mind. 10 Schaltstunden + Test­fahrt beim Fahrlehrer (kein TÜV-Termin extra)
-- Sonderfahrten: 5/4/3 · Theorie: 12+2
-
-**Klasse B78 (reine Automatik)**
-- Wie Klasse B, Führerschein gilt nur für Automatik
-- Sonderfahrten: 5/4/3 · Theorie: 12+2
+**Quelle:** weiterhin eigene Uploads über den Admin-Bereich. Beim ersten Hochladen siehst du den Feed sofort live.
+**Layout:** horizontal scrollbares Karussell (mobil wischen, Desktop seitlich scrollen + Pfeil-Buttons), zeigt ALLE aktiven Beiträge statt nur 6. Das passt am besten zu „runter/seitlich scrollen um mehr zu sehen" und wirkt wie ein echter Instagram-Streifen.
 
 ## Umsetzung
-- In `src/routes/preise.tsx`: `CATEGORIES` um ein Feld `details` erweitern (Sonderfahrten, Theorie, Mindestalter, Voraussetzungen, Hinweis).
-- Im Karten-Header bleibt alles wie es ist. Direkt unter dem Tagline-Bereich (vor der Preisliste) ein neuer kompakter Info-Block mit Icons:
-  - Zeile 1: drei kleine Stat-Pills „5 Überland · 4 Autobahn · 3 Dunkel" (B197/B78: zusätzlich Hinweis-Badge)
-  - Zeile 2: „Theorie: 12 + 2 Doppelstunden · Mindestalter 18 (17 BF17)"
-  - Klappbarer Bereich „Voraussetzungen" mit Lichtbildausweis, Sehtest, Erste-Hilfe-Kurs
-- Klasse B197 bekommt zusätzlich eine Zeile „+ 10 Schaltstunden inkl. interner Testfahrt".
-- Klasse B78 bekommt Zeile „Führerschein nur für Automatik".
-- Styling konsistent mit bestehender Karte: bei `featured` (B197) Text weiß/transparent, sonst dunkel auf weiß.
-- Keine DB-Änderung, keine neuen Dateien – nur `src/routes/preise.tsx` anpassen.
+- `src/components/site/InstagramSection.tsx` umbauen:
+  - Limit `.limit(6)` entfernen → alle aktiven Posts laden, nach `sort_order`.
+  - Grid ersetzen durch horizontal scrollbaren Track (`flex overflow-x-auto snap-x snap-mandatory`), Karten mit fixer Breite (~240px mobil, ~280px Desktop), `aspect-square`.
+  - Scrollbar dezent stylen, Snap-Verhalten für sauberes Wischen.
+  - Desktop: dezente Pfeil-Buttons links/rechts (scrollBy ±320px), nur sichtbar wenn überlauf.
+  - Hover/Tap-Overlay mit Instagram-Gradient + Caption + „Beitrag öffnen" wie bisher.
+  - Jede Karte verlinkt auf `post_url`, externer Tab.
+  - Header bleibt: „Frisch bestanden – unsere Fahrschüler bei Instagram", CTA-Button „@miro_drive folgen".
+  - Fallback wenn keine Posts in DB: dezenter Hinweis-Block mit großem „Auf Instagram ansehen"-Button (statt komplett nichts zu rendern), damit die Sektion auch vor dem ersten Upload Wirkung hat.
+- `src/routes/index.tsx`: keine Änderung nötig (Section ist bereits eingebunden).
+- Keine DB-, keine Auth-, keine Routing-Änderungen.
 
 ## Offene Punkte
-Wenn ok, baue ich es direkt so. Bei BE sehe ich aktuell keine Klasse in den Preisen – soll BE als vierte Karte ergänzt werden oder ist das aktuell nicht im Angebot?
+- Wenn du doch automatische Synchronisation willst (Elfsight-Widget kostenpflichtig, oder Graph API mit Facebook-Business-Konto), sag Bescheid – dann erweitere ich entsprechend.
+- Erste Beiträge musst du einmalig im Admin-Bereich hochladen (Screenshot + Instagram-Link je Post). Soll ich dir dabei direkt 5–10 Platzhalter mit Beispieltexten einfügen, damit du nur Bilder austauschen musst?
