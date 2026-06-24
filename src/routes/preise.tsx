@@ -4,7 +4,7 @@ import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { CONTACT } from "@/lib/contact";
 import { ErrorBox, NotFoundBox } from "@/components/site/QueryFallbacks";
-import { Info, Car, Cog, Sparkles, MapPin, MessageCircle, ShieldCheck, ArrowRight } from "lucide-react";
+import { Info, Car, Cog, Sparkles, MapPin, MessageCircle, ShieldCheck, ArrowRight, Route as RouteIcon, Moon, Gauge, BookOpen, UserCheck, CheckCircle2 } from "lucide-react";
 
 const pricesQuery = queryOptions({
   queryKey: ["prices"],
@@ -42,6 +42,12 @@ type CategoryMeta = {
   icon: typeof Car;
   featured?: boolean;
   badge?: string;
+  sonderfahrten: { ueberland: number; autobahn: number; dunkel: number };
+  theorie: string;
+  mindestalter: string;
+  pruefung: string;
+  extraNote?: string;
+  requirements: string[];
 };
 
 const CATEGORIES: CategoryMeta[] = [
@@ -50,6 +56,11 @@ const CATEGORIES: CategoryMeta[] = [
     short: "B",
     tagline: "Klassischer Führerschein mit Schaltgetriebe – volle Flexibilität.",
     icon: Car,
+    sonderfahrten: { ueberland: 5, autobahn: 4, dunkel: 3 },
+    theorie: "12 Grundstoff + 2 Zusatzstoff (Doppelstunden à 90 Min.)",
+    mindestalter: "18 Jahre (17 bei BF17)",
+    pruefung: "Theorie- & Praxisprüfung beim TÜV",
+    requirements: ["Lichtbildausweis", "Sehtest", "Erste-Hilfe-Kurs"],
   },
   {
     key: "Klasse B197",
@@ -58,12 +69,24 @@ const CATEGORIES: CategoryMeta[] = [
     icon: Sparkles,
     featured: true,
     badge: "Am beliebtesten",
+    sonderfahrten: { ueberland: 5, autobahn: 4, dunkel: 3 },
+    theorie: "12 Grundstoff + 2 Zusatzstoff (Doppelstunden à 90 Min.)",
+    mindestalter: "18 Jahre (17 bei BF17)",
+    pruefung: "Theorie- & Praxisprüfung beim TÜV (auf Automatik)",
+    extraNote: "Zusätzlich: mind. 10 Schaltstunden + interne Testfahrt beim Fahrlehrer – kein extra TÜV-Termin.",
+    requirements: ["Lichtbildausweis", "Sehtest", "Erste-Hilfe-Kurs"],
   },
   {
     key: "Klasse B78",
     short: "B78",
     tagline: "Reine Automatik-Klasse – schneller und entspannter ans Ziel.",
     icon: Cog,
+    sonderfahrten: { ueberland: 5, autobahn: 4, dunkel: 3 },
+    theorie: "12 Grundstoff + 2 Zusatzstoff (Doppelstunden à 90 Min.)",
+    mindestalter: "18 Jahre (17 bei BF17)",
+    pruefung: "Theorie- & Praxisprüfung beim TÜV",
+    extraNote: "Führerschein gilt ausschließlich für Automatik-Fahrzeuge.",
+    requirements: ["Lichtbildausweis", "Sehtest", "Erste-Hilfe-Kurs"],
   },
 ];
 
@@ -139,6 +162,48 @@ function PricesPage() {
                 </div>
 
                 <div className="flex flex-1 flex-col px-7 pb-7 pt-5">
+                  <div className="mb-5 space-y-3 rounded-2xl border border-border/60 bg-muted/30 p-4">
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="flex flex-col items-center gap-1 rounded-xl bg-white px-2 py-2 text-center shadow-sm">
+                        <RouteIcon className="h-4 w-4 text-primary" />
+                        <span className="font-display text-base leading-none text-foreground">{meta.sonderfahrten.ueberland}</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Überland</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-1 rounded-xl bg-white px-2 py-2 text-center shadow-sm">
+                        <Gauge className="h-4 w-4 text-primary" />
+                        <span className="font-display text-base leading-none text-foreground">{meta.sonderfahrten.autobahn}</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Autobahn</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-1 rounded-xl bg-white px-2 py-2 text-center shadow-sm">
+                        <Moon className="h-4 w-4 text-primary" />
+                        <span className="font-display text-base leading-none text-foreground">{meta.sonderfahrten.dunkel}</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Dunkel</span>
+                      </div>
+                    </div>
+                    <ul className="space-y-1.5 text-xs text-foreground/80">
+                      <li className="flex items-start gap-2">
+                        <BookOpen className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span><span className="font-semibold">Theorie:</span> {meta.theorie}</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <UserCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span><span className="font-semibold">Mindestalter:</span> {meta.mindestalter}</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span><span className="font-semibold">Prüfung:</span> {meta.pruefung}</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span><span className="font-semibold">Voraussetzungen:</span> {meta.requirements.join(", ")}</span>
+                      </li>
+                    </ul>
+                    {meta.extraNote && (
+                      <div className="rounded-lg border border-primary/30 bg-primary/5 px-3 py-2 text-[11px] leading-snug text-foreground/80">
+                        <span className="font-bold text-primary">Hinweis: </span>{meta.extraNote}
+                      </div>
+                    )}
+                  </div>
                   <ul className="flex-1 divide-y divide-border/60">
                     {items.map((it) => (
                       <li key={it.id} className="flex items-start justify-between gap-4 py-3.5">
