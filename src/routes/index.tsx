@@ -12,6 +12,8 @@ import { LOCATIONS } from "@/lib/locations";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ReviewsSection } from "@/components/site/ReviewsSection";
 import { InstagramSection } from "@/components/site/InstagramSection";
+import { isOfferLive, formatRemaining } from "@/lib/offer";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -80,12 +82,14 @@ const FAQ_TOP = [
 ];
 
 function Index() {
+  const [, setTick] = useState(0);
+  useEffect(() => { const id = setInterval(() => setTick((n) => n + 1), 60_000); return () => clearInterval(id); }, []);
   const [pricesQ, teamQ, faQ] = useQueries({
     queries: [
       {
         queryKey: ["home-prices"],
         queryFn: async () => {
-          const { data, error } = await supabase.from("prices").select("category,title,price,old_price,offer_label,offer_active").eq("active", true);
+          const { data, error } = await supabase.from("prices").select("category,title,price,old_price,offer_label,offer_active,offer_valid_from,offer_valid_until").eq("active", true);
           if (error) throw error;
           return data ?? [];
         },
@@ -113,11 +117,14 @@ function Index() {
   const team = teamQ.data ?? [];
   const faInfo = faQ.data;
 
-  const hasActiveOffer = prices.some((p: any) => p.offer_active);
+  const hasActiveOffer = prices.some((p: any) => isOfferLive(p));
 
-  const priceFor = (cat: string) => {
-    const grund = prices.find((p) => p.category === cat && /grundbetrag/i.test(p.title));
-    return grund?.price ?? prices.find((p) => p.category === cat)?.price ?? "";
+  const rowFor = (cat: string) => {
+    return (
+      prices.find((p) => p.category === cat && /grundbetrag/i.test(p.title)) ??
+      prices.find((p) => p.category === cat) ??
+      null
+    );
   };
 
   return (
@@ -325,7 +332,10 @@ function Index() {
         </div>
         <div className="grid grid-cols-3 gap-2.5 items-stretch sm:gap-4 md:gap-6">
           {PRICE_CLASSES.map((c) => {
-            const grund = priceFor(c.key);
+            const row: any = rowFor(c.key);
+            const grund = row?.price ?? "";
+            const live = isOfferLive(row);
+            const remaining = live ? formatRemaining(row?.offer_valid_until) : null;
             const featured = c.featured;
             return (
               <Link
@@ -341,6 +351,11 @@ function Index() {
                 {featured && (
                   <span className="absolute right-0 top-0 bg-primary px-2 py-0.5 font-display text-[8px] uppercase tracking-widest text-primary-foreground sm:px-4 sm:py-1 sm:text-[10px]">
                     Beliebt
+                  </span>
+                )}
+                {live && (
+                  <span className="absolute left-0 top-0 z-10 inline-flex items-center gap-1 bg-white px-2 py-0.5 font-display text-[8px] font-black uppercase tracking-widest text-primary shadow-md sm:px-3 sm:py-1 sm:text-[10px]">
+                    🔥 {row?.offer_label || "Angebot"}
                   </span>
                 )}
                 <div>
@@ -388,7 +403,13 @@ function Index() {
                       >
                         Ab
                       </p>
-                      <p className="font-display text-xl text-primary sm:text-4xl">{grund}</p>
+                      {live && row?.old_price && (
+                        <p className={["text-[10px] font-semibold line-through sm:text-sm", featured ? "text-white/50" : "text-muted-foreground"].join(" ")}>{row.old_price}</p>
+                      )}
+                      <p className={["font-display text-primary", live ? "text-2xl sm:text-5xl drop-shadow-sm" : "text-xl sm:text-4xl"].join(" ")}>{grund}</p>
+                      {remaining && (
+                        <p className="mt-1 text-[9px] font-bold text-primary sm:text-[11px]">⏰ {remaining}</p>
+                      )}
                     </div>
                     <div
                       className={[
