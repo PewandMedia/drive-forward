@@ -45,7 +45,7 @@ function LeistungenPage() {
         subtitle="MIRO-DRIVE bietet dir eine moderne Fahrausbildung in Bochum – von der Anmeldung über Theorie und Praxis bis zur erfolgreichen Prüfung. Ideal für Bochum Innenstadt, Rathaus Bochum, Bochum Riemke und Herne."
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {services.map((s) => (
             <div key={s.title} className="group flex flex-col overflow-hidden rounded-2xl border bg-white transition-all hover:-translate-y-1 hover:shadow-2xl">
               <div className="relative aspect-[16/10] overflow-hidden bg-muted">
@@ -62,7 +62,7 @@ function LeistungenPage() {
                   <s.icon className="h-5 w-5" />
                 </div>
               </div>
-              <div className="flex flex-1 flex-col p-6">
+              <div className="flex flex-1 flex-col p-4 sm:p-6">
                 <h3 className="font-display text-lg leading-tight">{s.title}</h3>
                 <p className="mt-2 flex-1 text-sm text-muted-foreground">{s.text}</p>
                 <Link to={s.to} className="mt-5 inline-flex items-center text-sm font-bold text-primary hover:underline">
