@@ -111,14 +111,16 @@ function Index() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className="relative overflow-hidden bg-white">
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-[58%] -skew-x-12 bg-primary/[0.04]" />
-        <div className="relative mx-auto grid min-h-[420px] max-w-7xl grid-cols-[1fr_1.2fr] items-center gap-3 px-3 py-8 sm:min-h-[600px] sm:gap-8 sm:px-6 sm:py-16 lg:min-h-[720px] lg:grid-cols-[1fr_1.4fr] lg:gap-12 lg:py-24 lg:px-8">
-          <div className="animate-fade-up min-w-0">
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-neutral-50">
+        <div className="pointer-events-none absolute inset-0 hero-dot-grid opacity-40" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-[62%] -skew-x-12 bg-gradient-to-br from-primary/[0.08] via-primary/[0.03] to-transparent" />
+        <div className="pointer-events-none absolute -right-16 top-1/2 hidden h-3 w-[55%] -translate-y-1/2 bg-foreground lg:block" />
+        <div className="relative mx-auto grid min-h-[460px] max-w-7xl grid-cols-[1fr_1.35fr] items-center gap-3 px-3 py-8 sm:min-h-[620px] sm:gap-8 sm:px-6 sm:py-16 lg:min-h-[760px] lg:grid-cols-[0.85fr_1.7fr] lg:gap-8 lg:py-24 lg:px-8">
+          <div className="animate-fade-up relative z-10 min-w-0">
             <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary sm:mb-5 sm:gap-2 sm:px-3 sm:py-1 sm:text-xs">
               <span className="h-1 w-1 rounded-full bg-primary sm:h-1.5 sm:w-1.5" /> Fahrschule MIRO-DRIVE
             </div>
-            <h1 className="text-xl leading-[1.05] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            <h1 className="text-xl leading-[1.02] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
               Fahrschule Bochum – <br />
               <span className="text-primary">Dein Führerschein</span> <br />
               startet bei <br />
@@ -159,9 +161,14 @@ function Index() {
               <span>{CONTACT.googleReviewCount} Google-Bewertungen · beste Fahrschule Bochum</span>
             </a>
           </div>
-          <div className="relative -mr-6 sm:-mr-10 lg:-mr-20 xl:-mr-32">
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[110%] w-[110%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,theme(colors.primary/25),transparent_65%)] blur-2xl" />
-            <div className="pointer-events-none absolute -right-6 top-8 -z-10 hidden h-2 w-40 bg-foreground lg:block" />
+          <div className="relative -mr-8 sm:-mr-14 lg:-mr-32 xl:-mr-48 group">
+            {/* Radial red glow */}
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[130%] w-[130%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,theme(colors.primary/45),transparent_60%)] blur-3xl" />
+            {/* Speed lines behind car */}
+            <div className="pointer-events-none absolute left-0 top-1/2 -z-10 h-[35%] w-[70%] -translate-y-1/2 hero-speedlines opacity-70" />
+            {/* Black accent bar */}
+            <div className="pointer-events-none absolute -right-8 top-6 -z-10 hidden h-2 w-56 bg-foreground lg:block" />
+            <div className="pointer-events-none absolute -right-4 bottom-10 -z-10 hidden h-1 w-40 bg-primary lg:block" />
             <img
               src={heroCar}
               alt="Fahrschulauto MIRO-DRIVE Bochum – moderner weißer Mercedes A-Klasse der Fahrschule in Bochum"
@@ -169,8 +176,10 @@ function Index() {
               height={1024}
               loading="eager"
               fetchPriority="high"
-              className="animate-drive-in-right relative w-full scale-150 object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.25)] sm:scale-125 lg:scale-110 lg:drop-shadow-[0_30px_40px_rgba(0,0,0,0.25)]"
+              className="animate-drive-in-right relative w-full scale-[1.7] object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.28)] transition-transform duration-500 group-hover:scale-[1.75] sm:scale-[1.45] lg:scale-[1.4] xl:scale-[1.5] lg:drop-shadow-[0_40px_50px_rgba(0,0,0,0.3)]"
             />
+            {/* Ground shadow ellipse */}
+            <div className="pointer-events-none absolute bottom-[8%] left-1/2 h-4 w-[70%] -translate-x-1/2 rounded-[50%] bg-black/40 blur-2xl" />
           </div>
         </div>
       </section>
