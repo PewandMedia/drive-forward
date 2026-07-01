@@ -1,37 +1,18 @@
-import { Instagram, ArrowRight, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Instagram, ArrowRight, ExternalLink } from "lucide-react";
 import { CONTACT } from "@/lib/contact";
+import img1 from "@/assets/insta/bestanden-1.jpg";
+import img2 from "@/assets/insta/bestanden-2.jpg";
+import img3 from "@/assets/insta/bestanden-3.jpg";
+import img4 from "@/assets/insta/bestanden-4.jpg";
+import img5 from "@/assets/insta/bestanden-5.jpg";
+import img6 from "@/assets/insta/bestanden-6.jpg";
+import img7 from "@/assets/insta/bestanden-7.jpg";
+import img8 from "@/assets/insta/bestanden-8.jpg";
+import img9 from "@/assets/insta/bestanden-9.jpg";
 
-type IgPost = {
-  id: string;
-  image_url: string;
-  caption: string | null;
-  post_url: string;
-};
+const POSTS = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
 
 export function InstagramSection() {
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const { data = [] } = useQuery({
-    queryKey: ["instagram-posts"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("instagram_posts")
-        .select("id,image_url,caption,post_url")
-        .eq("active", true)
-        .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return (data ?? []) as IgPost[];
-    },
-  });
-
-  const scrollBy = (dx: number) => {
-    trackRef.current?.scrollBy({ left: dx, behavior: "smooth" });
-  };
-
-  const hasPosts = data.length > 0;
-
   return (
     <section className="relative overflow-hidden bg-white py-20">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -56,69 +37,32 @@ export function InstagramSection() {
           </p>
         </div>
 
-        {hasPosts ? (
-          <div className="relative mt-12">
-            <button
-              type="button"
-              aria-label="Zurück scrollen"
-              onClick={() => scrollBy(-320)}
-              className="absolute -left-2 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white text-foreground shadow-md transition-transform hover:scale-105 md:flex"
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 md:grid-cols-3">
+          {POSTS.map((src, idx) => (
+            <a
+              key={idx}
+              href={CONTACT.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block aspect-square overflow-hidden rounded-2xl bg-muted shadow-sm transition-transform hover:-translate-y-1"
             >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              aria-label="Weiter scrollen"
-              onClick={() => scrollBy(320)}
-              className="absolute -right-2 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white text-foreground shadow-md transition-transform hover:scale-105 md:flex"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-
-            <div
-              ref={trackRef}
-              className="ig-scroll -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-4 sm:gap-5 sm:px-6"
-            >
-              {data.map((p) => (
-                <a
-                  key={p.id}
-                  href={p.post_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative block aspect-square w-[240px] shrink-0 snap-start overflow-hidden rounded-2xl bg-muted shadow-sm transition-transform hover:-translate-y-1 sm:w-[280px]"
-                >
-                  <img
-                    src={p.image_url}
-                    alt={p.caption ?? "Instagram-Beitrag von MIRO-DRIVE"}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#833ab4]/80 via-[#fd1d1d]/60 to-[#fcb045]/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <Instagram className="h-8 w-8 drop-shadow" />
-                    {p.caption && (
-                      <p className="line-clamp-3 text-xs font-semibold drop-shadow">{p.caption}</p>
-                    )}
-                    <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
-                      Auf Instagram ansehen <ExternalLink className="h-3 w-3" />
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
-            <p className="mt-3 text-center text-xs text-muted-foreground md:hidden">
-              ← Wische zur Seite für mehr Beiträge →
-            </p>
-          </div>
-        ) : (
-          <div className="mt-12 rounded-3xl border border-dashed border-primary/20 bg-primary/[0.03] p-10 text-center">
-            <Instagram className="mx-auto h-10 w-10 text-primary" />
-            <p className="mt-4 text-base font-semibold text-foreground">
-              Schau direkt auf Instagram vorbei – dort feiern wir jede bestandene Prüfung.
-            </p>
-          </div>
-        )}
+              <img
+                src={src}
+                alt={`Bestandene Führerscheinprüfung bei MIRO-DRIVE – Beitrag ${idx + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#833ab4]/80 via-[#fd1d1d]/60 to-[#fcb045]/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <Instagram className="h-8 w-8 drop-shadow" />
+                <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+                  Auf Instagram ansehen <ExternalLink className="h-3 w-3" />
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
 
         <div className="mt-12 flex justify-center">
           <a
@@ -133,11 +77,6 @@ export function InstagramSection() {
           </a>
         </div>
       </div>
-      <style>{`
-        .ig-scroll::-webkit-scrollbar { height: 6px; }
-        .ig-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 9999px; }
-        .ig-scroll::-webkit-scrollbar-track { background: transparent; }
-      `}</style>
     </section>
   );
 }
