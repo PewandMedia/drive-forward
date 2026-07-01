@@ -528,14 +528,14 @@ function Index() {
                 Ganzes Team ansehen <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
               {team.map((m) => (
-                <Link key={m.id} to="/team" className="group rounded-3xl border bg-white p-5 text-center transition-transform hover:-translate-y-1">
+                <Link key={m.id} to="/team" className="group rounded-2xl border bg-white p-3 text-center transition-transform hover:-translate-y-1 sm:rounded-3xl sm:p-5">
                   <div className="mx-auto mb-4">
                     <MiniAvatar name={m.name} src={m.image_url} />
                   </div>
-                  <p className="font-display text-base">{m.name}</p>
-                  {m.role && <p className="mt-0.5 text-xs uppercase tracking-wider text-muted-foreground">{m.role}</p>}
+                  <p className="font-display text-sm sm:text-base">{m.name}</p>
+                  {m.role && <p className="mt-0.5 text-[10px] uppercase tracking-wider text-muted-foreground sm:text-xs">{m.role}</p>}
                 </Link>
               ))}
             </div>
