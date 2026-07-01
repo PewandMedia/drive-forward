@@ -114,29 +114,29 @@ function Index() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-neutral-50">
         <div className="pointer-events-none absolute inset-0 hero-dot-grid opacity-40" />
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-[55%] -skew-x-12 bg-gradient-to-br from-primary/[0.06] via-primary/[0.02] to-transparent" />
-        <div className="relative mx-auto grid min-h-[380px] max-w-7xl grid-cols-[1.1fr_1fr] items-center gap-4 px-4 py-8 sm:min-h-[520px] sm:grid-cols-[1fr_1fr] sm:gap-8 sm:px-6 sm:py-14 lg:min-h-[640px] lg:grid-cols-[1fr_1.1fr] lg:gap-10 lg:py-20 lg:px-8">
-          <div className="animate-fade-up relative z-10 min-w-0">
+        <div className="pointer-events-none absolute right-0 top-0 hidden h-full w-[55%] -skew-x-12 bg-gradient-to-br from-primary/[0.06] via-primary/[0.02] to-transparent lg:block" />
+        <div className="relative mx-auto flex max-w-7xl flex-col items-stretch gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 lg:grid lg:min-h-[640px] lg:grid-cols-[1fr_1.25fr] lg:items-center lg:gap-10 lg:py-20 lg:px-8">
+          <div className="animate-fade-up relative z-10 min-w-0 order-1">
             <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary sm:mb-5 sm:gap-2 sm:px-3 sm:py-1 sm:text-xs">
               <span className="h-1 w-1 rounded-full bg-primary sm:h-1.5 sm:w-1.5" /> Fahrschule MIRO-DRIVE
             </div>
-            <h1 className="max-w-[14ch] text-2xl leading-tight sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <h1 className="text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
               Fahrschule Bochum –{" "}
               <span className="text-primary">Dein Führerschein</span> startet bei MIRO-DRIVE.
             </h1>
-            <p className="mt-3 max-w-xl text-xs text-muted-foreground sm:mt-6 sm:text-base lg:text-lg">
+            <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:mt-6 sm:text-base lg:text-lg">
               MIRO-DRIVE ist deine moderne Fahrschule in Bochum für eine sichere, stressfreie und professionelle
               Führerscheinausbildung. Ob Bochum Innenstadt, Rathaus Bochum, Bochum Riemke oder Umgebung wie
               Herne – wir begleiten dich Schritt für Schritt bis zu deinem Führerschein.
             </p>
-            <div className="mt-4 flex flex-col flex-wrap gap-2 sm:mt-8 sm:flex-row sm:gap-3">
-              <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-2 text-[11px] font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:scale-[1.03] sm:gap-2 sm:px-6 sm:py-3.5 sm:text-sm">
-                <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4" /> Jetzt per WhatsApp anmelden
+            <div className="mt-5 flex flex-col flex-wrap gap-2 sm:mt-8 sm:flex-row sm:gap-3">
+              <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:scale-[1.03] sm:px-6 sm:py-3.5 sm:text-sm">
+                <MessageCircle className="h-4 w-4" /> Jetzt per WhatsApp anmelden
               </a>
-              <Link to="/preise" className="inline-flex items-center justify-center gap-1.5 rounded-full bg-foreground px-3 py-2 text-[11px] font-bold text-white hover:bg-foreground/90 sm:gap-2 sm:px-6 sm:py-3.5 sm:text-sm">
+              <Link to="/preise" className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-4 py-2.5 text-xs font-bold text-white hover:bg-foreground/90 sm:px-6 sm:py-3.5 sm:text-sm">
                 Preise ansehen
               </Link>
-              <Link to="/angebote" className="inline-flex items-center justify-center gap-1.5 rounded-full border-2 border-foreground bg-white px-3 py-2 text-[11px] font-bold text-foreground transition-colors hover:bg-foreground hover:text-white sm:gap-2 sm:px-6 sm:py-3.5 sm:text-sm">
+              <Link to="/angebote" className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-foreground bg-white px-4 py-2.5 text-xs font-bold text-foreground transition-colors hover:bg-foreground hover:text-white sm:px-6 sm:py-3.5 sm:text-sm">
                 Angebot anfragen
               </Link>
             </div>
@@ -159,9 +159,9 @@ function Index() {
               <span>{CONTACT.googleReviewCount} Google-Bewertungen · beste Fahrschule Bochum</span>
             </a>
           </div>
-          <div className="relative flex min-w-0 flex-col items-center justify-center gap-2 sm:gap-3">
+          <div className="relative order-2 flex min-w-0 flex-col items-center justify-center gap-3 sm:gap-4 lg:-mr-8 xl:-mr-16">
             {/* Subtle radial red glow behind the whole composition */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[110%] w-[110%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,theme(colors.primary/25),transparent_65%)] blur-3xl" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[110%] w-[110%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,theme(colors.primary/30),transparent_65%)] blur-3xl" />
 
             {/* Logo + eyebrow */}
             <div className="animate-fade-up relative z-10 flex w-full flex-col items-center">
@@ -172,18 +172,18 @@ function Index() {
                 height={160}
                 loading="eager"
                 fetchPriority="high"
-                className="h-8 w-auto object-contain sm:h-10 md:h-12 lg:h-14"
+                className="h-10 w-auto object-contain sm:h-12 md:h-14 lg:h-12"
               />
-              <p className="mt-1.5 text-[8px] font-bold uppercase tracking-[0.24em] text-muted-foreground sm:mt-2 sm:text-[10px] md:text-xs">
+              <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.24em] text-muted-foreground sm:text-[10px] md:text-xs">
                 Fahrschule · Bochum · seit über 10 Jahren
               </p>
-              <div className="mt-1.5 h-[2px] w-12 bg-primary sm:mt-2 sm:w-20" />
+              <div className="mt-2 h-[2px] w-16 bg-primary sm:w-20" />
             </div>
 
             {/* Car */}
             <div className="relative w-full">
               {/* subtle speed lines */}
-              <div className="pointer-events-none absolute left-0 top-1/2 -z-10 h-[30%] w-[65%] -translate-y-1/2 hero-speedlines opacity-50" />
+              <div className="pointer-events-none absolute left-0 top-1/2 -z-10 h-[32%] w-[70%] -translate-y-1/2 hero-speedlines opacity-50" />
               <img
                 src={miroCarAsset.url}
                 alt="MIRO-DRIVE Fahrschulauto Bochum – das echte Schulungsfahrzeug der Fahrschule MIRO-DRIVE"
@@ -191,10 +191,10 @@ function Index() {
                 height={1024}
                 loading="eager"
                 fetchPriority="high"
-                className="animate-drive-in-right relative mx-auto block w-full max-w-[360px] object-contain drop-shadow-[0_18px_25px_rgba(0,0,0,0.22)] sm:max-w-[440px] md:max-w-[520px] lg:max-w-[600px] xl:max-w-[680px] lg:drop-shadow-[0_30px_40px_rgba(0,0,0,0.28)]"
+                className="animate-drive-in-right relative mx-auto block w-full max-w-[440px] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.25)] sm:max-w-[560px] md:max-w-[640px] lg:max-w-none lg:scale-[1.1] xl:scale-[1.18] lg:drop-shadow-[0_35px_45px_rgba(0,0,0,0.3)]"
               />
               {/* ground shadow */}
-              <div className="pointer-events-none absolute bottom-[4%] left-1/2 h-3 w-[55%] -translate-x-1/2 rounded-[50%] bg-black/35 blur-xl" />
+              <div className="pointer-events-none absolute bottom-[4%] left-1/2 h-3 w-[60%] -translate-x-1/2 rounded-[50%] bg-black/35 blur-xl" />
             </div>
           </div>
         </div>
