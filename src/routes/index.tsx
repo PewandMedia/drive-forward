@@ -158,7 +158,7 @@ function Index() {
               <span>{CONTACT.googleReviewCount} Google-Bewertungen · beste Fahrschule Bochum</span>
             </a>
           </div>
-          <div className="relative order-2 min-w-0 lg:-mr-10 xl:-mr-20">
+          <div className="relative order-2 min-w-0 xl:-mr-8">
             <div className="hero-car-stage relative mx-auto flex min-h-[300px] w-full max-w-[720px] flex-col items-center justify-end overflow-visible px-0 pb-4 pt-4 sm:min-h-[390px] sm:pb-8 lg:min-h-[560px] lg:max-w-none lg:pb-10 lg:pt-8">
               <div className="pointer-events-none absolute inset-x-3 bottom-6 h-[38%] hero-studio-floor sm:inset-x-6 lg:bottom-8" />
               <div className="pointer-events-none absolute inset-x-0 bottom-[18%] h-[38%] hero-soft-halo" />
@@ -189,7 +189,7 @@ function Index() {
                 height={1024}
                 loading="eager"
                 fetchPriority="high"
-                className="relative mx-auto block w-[112%] max-w-none -translate-x-[6%] object-contain drop-shadow-[0_24px_26px_rgba(15,15,15,0.22)] sm:w-[106%] sm:-translate-x-[3%] md:w-full md:translate-x-0 lg:w-[118%] lg:-translate-x-[5%] xl:w-[124%] xl:-translate-x-[7%]"
+                className="relative mx-auto block w-[108%] max-w-none -translate-x-[4%] object-contain drop-shadow-[0_24px_26px_rgba(15,15,15,0.22)] sm:w-[106%] sm:-translate-x-[3%] md:w-full md:translate-x-0 lg:w-[110%] lg:-translate-x-[2%] xl:w-[114%] xl:-translate-x-[4%]"
               />
               {/* ground shadow */}
               <div className="pointer-events-none absolute bottom-[5%] left-1/2 h-4 w-[74%] -translate-x-1/2 rounded-[50%] bg-foreground/25 blur-xl sm:h-5 lg:h-7 lg:w-[78%] lg:blur-2xl" />
