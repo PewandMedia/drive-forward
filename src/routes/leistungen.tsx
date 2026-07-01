@@ -62,7 +62,7 @@ function LeistungenPage() {
                   <s.icon className="h-5 w-5" />
                 </div>
               </div>
-              <div className="flex flex-1 flex-col p-6">
+              <div className="flex flex-1 flex-col p-4 sm:p-6">
                 <h3 className="font-display text-lg leading-tight">{s.title}</h3>
                 <p className="mt-2 flex-1 text-sm text-muted-foreground">{s.text}</p>
                 <Link to={s.to} className="mt-5 inline-flex items-center text-sm font-bold text-primary hover:underline">
