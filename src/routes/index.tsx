@@ -446,7 +446,7 @@ function Index() {
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl border bg-white">
           <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/15 hidden lg:block blur-3xl" />
-          <div className="relative grid gap-10 p-8 sm:p-12 lg:grid-cols-2 lg:items-center">
+          <div className="relative grid gap-6 p-5 sm:gap-10 sm:p-12 lg:grid-cols-2 lg:items-center">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-primary">Erste-Hilfe-Kurs</span>
               <h2 className="mt-2 text-4xl sm:text-5xl">Pflichtkurs für deinen Führerschein.</h2>
@@ -475,7 +475,7 @@ function Index() {
                 Zum Erste-Hilfe-Kurs <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="relative">
+            <div className="relative order-first lg:order-none">
               <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-primary/15 via-primary/5 to-transparent p-6">
                 <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/25 blur-3xl" />
                 <div className="relative grid h-full grid-cols-3 grid-rows-3 gap-3">
