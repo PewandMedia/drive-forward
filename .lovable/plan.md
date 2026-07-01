@@ -1,12 +1,28 @@
-## Hero-Text Optimierung
+## Plan: Preise-Seite – 3 Klassen nebeneinander auf Mobil
 
 ### Ziel
-Den Hero-Bereich der Startseite schärfer auf MIRO-DRIVE als Nr. 1 Fahrschule in Bochum fokussieren, Herne aus dem Hero-Text entfernen und die beiden Filialen prominent nennen.
-170 Änderungen
-1. **Subline (Zeile 152)**: Entferne „Herne" aus der Überschrift-Leiste – wird zu: `Fahrschule · Bochum · NRW`
-2. **H1 (Zeilen 155-156)**: Behalten, bereits korrekt: „Fahrschule MIRO-DRIVE – die Nr. 1 Fahrschule in Bochum."
-3. **Beschreibung (Zeilen 158-163)**: Entferne „Herne" aus dem Fließtext. Ersetze durch eine Formulierung, die nur Bochum und NRW nennt und die beiden Standorte (Brückstraße / Herner Straße) direkt als „Bochum Zentrum" und „Bochum Riemke" führt.
-4. **Marquee (Zeilen 48-49)**: Entferne „Fahrschule Herne" aus dem Ticker, damit auch dort keine Verwirrung entsteht.
+Die drei Führerschein-Klassen (B, B197, B78) auf der `/preise`-Seite bereits auf mobilen Viewports nebeneinander darstellen, um Scroll-Tiefe zu reduzieren und die Übersicht zu erhöhen – analog zur Startseite.
+
+### Änderungen
+
+**1. Grid-Breakpoint anpassen**
+- `src/routes/preise.tsx`, Zeile ~121: Grid von `lg:grid-cols-3` auf `grid-cols-3` (ab mobil) umstellen.
+- `gap` reduzieren für engeres Layout auf schmalen Screens.
+
+**2. Karten-Inhalt komprimieren**
+- Header-Bereich (Icon + Titel): Kleineres Padding und reduzierte Schriftgrößen auf mobil (`sm:`-Prefix entfernen oder verkleinern).
+- Tagline: Auf mobilen Viewports ausblenden oder auf 1 Zeile begrenzen.
+- Info-Box (Sonderfahrten + Theorie/Mindestalter/Prüfung/Voraussetzungen): Auf mobil ausblenden oder auf 3 Mini-Stat-Badges reduzieren.
+- Preisliste (`items.map`): Nur Titel + Preis anzeigen, Beschreibung und Angebots-Badge auf mobil verstecken.
+- CTAs (WhatsApp + Filiale): Buttons auf Icon-only oder einzeiligen kompakten Stil reduzieren.
+
+**3. Featured-Karte (B197) beibehalten**
+- Roter Header und "Am beliebtesten"-Badge bleiben erhalten.
+- `lg:-translate-y-3 lg:scale-[1.02]` bleibt Desktop-only.
+
+**4. TÜV-Gebühren & Bottom-CTAs**
+- TÜV-Sektion (`sm:grid-cols-2`) und Bottom-Links bleiben unverändert.
 
 ### Ergebnis
-Hero kommuniziert eindeutig: MIRO-DRIVE = Nr. 1 in Bochum, zwei Standorte in Bochum Zentrum & Riemke, keine geografische Verwässerung durch Herne.
+- Mobile: 3 kompakte Spalten nebeneinander, essenzielle Infos sichtbar (Klasse, Basis-Preis, CTA), sekundäre Details ausgeblendet.
+- Tablet/Desktop: Volle Darstellung wie bisher.
