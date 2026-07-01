@@ -51,11 +51,14 @@ function TeamPage() {
   const { data: team } = useSuspenseQuery(teamQuery);
   const allInstructors = team.filter((m) => (m.sort_order ?? 0) < 8);
   const owner = allInstructors.find((m) => m.name.toLowerCase().includes("ilkay"));
-  const otherInstructors = allInstructors.filter((m) => m !== owner);
+  let otherInstructors = allInstructors.filter((m) => m !== owner);
   const office = team.filter((m) => (m.sort_order ?? 0) >= 8);
+  const birtan = office.find((m) => m.name.toLowerCase().includes("birtan"));
+  const officeWithoutBirtan = birtan ? office.filter((m) => m !== birtan) : office;
+  if (birtan) otherInstructors = [...otherInstructors, birtan];
 
   const renderGroup = (members: typeof team) => (
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {members.map((m) => {
         const languages = m.description?.startsWith("Sprachen:")
           ? m.description.replace("Sprachen:", "").split(",").map((s) => s.trim()).filter(Boolean)
@@ -63,7 +66,7 @@ function TeamPage() {
         return (
           <div
             key={m.id}
-            className="group flex flex-col items-center rounded-3xl border bg-white p-8 text-center transition-all hover:-translate-y-1 hover:shadow-xl"
+            className="group flex flex-col items-center rounded-3xl border bg-white p-4 sm:p-8 text-center transition-all hover:-translate-y-1 hover:shadow-xl"
           >
             <Avatar name={m.name} src={m.image_url} />
             <h3 className="mt-5 font-display text-xl">{m.name}</h3>
@@ -126,12 +129,12 @@ function TeamPage() {
             {otherInstructors.length > 0 && renderGroup(otherInstructors)}
           </section>
         )}
-        {office.length > 0 && (
+        {officeWithoutBirtan.length > 0 && (
           <section>
             <h2 className="mb-8 text-center font-display text-2xl text-primary sm:text-3xl">
               Bürokräfte der Fahrschule MIRO-DRIVE
             </h2>
-            {renderGroup(office)}
+            {renderGroup(officeWithoutBirtan)}
           </section>
         )}
       </div>
