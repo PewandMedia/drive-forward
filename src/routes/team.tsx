@@ -129,12 +129,12 @@ function TeamPage() {
             {otherInstructors.length > 0 && renderGroup(otherInstructors)}
           </section>
         )}
-        {office.length > 0 && (
+        {officeWithoutBirtan.length > 0 && (
           <section>
             <h2 className="mb-8 text-center font-display text-2xl text-primary sm:text-3xl">
               Bürokräfte der Fahrschule MIRO-DRIVE
             </h2>
-            {renderGroup(office)}
+            {renderGroup(officeWithoutBirtan)}
           </section>
         )}
       </div>
