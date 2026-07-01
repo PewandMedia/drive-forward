@@ -118,7 +118,7 @@ function PricesPage() {
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3 lg:items-stretch">
+        <div className="grid grid-cols-3 gap-2.5 sm:gap-6 lg:items-stretch">
           {cards.map(({ meta, items }) => {
             const Icon = meta.icon;
             const featured = meta.featured;
