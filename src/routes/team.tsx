@@ -58,7 +58,7 @@ function TeamPage() {
   if (birtan) otherInstructors = [...otherInstructors, birtan];
 
   const renderGroup = (members: typeof team) => (
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {members.map((m) => {
         const languages = m.description?.startsWith("Sprachen:")
           ? m.description.replace("Sprachen:", "").split(",").map((s) => s.trim()).filter(Boolean)
