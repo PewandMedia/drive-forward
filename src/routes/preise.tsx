@@ -118,7 +118,7 @@ function PricesPage() {
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3 lg:items-stretch">
+        <div className="grid grid-cols-3 gap-2.5 sm:gap-6 lg:items-stretch">
           {cards.map(({ meta, items }) => {
             const Icon = meta.icon;
             const featured = meta.featured;
@@ -136,36 +136,36 @@ function PricesPage() {
 
                 <div
                   className={[
-                    "relative px-7 pt-7 pb-6",
+                    "relative px-3 pt-4 pb-3 sm:px-7 sm:pt-7 sm:pb-6",
                     featured
                       ? "bg-gradient-to-br from-primary via-primary to-[#7a0010] text-white"
                       : "bg-gradient-to-br from-foreground via-foreground to-[#1a1a1a] text-white",
                   ].join(" ")}
                 >
                   <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:14px_14px]" />
-                  <div className="relative flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur">
-                        <Icon className="h-6 w-6" />
+                  <div className="relative flex items-center justify-between gap-2">
+                    <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                      <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-white/10 ring-1 ring-white/20 backdrop-blur sm:h-12 sm:w-12 sm:rounded-2xl">
+                        <Icon className="h-4 w-4 sm:h-6 sm:w-6" />
                       </div>
-                      <div>
-                        <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">
+                      <div className="min-w-0">
+                        <div className="hidden text-[11px] font-bold uppercase tracking-[0.18em] text-white/70 sm:block">
                           Führerschein
                         </div>
-                        <h3 className="font-display text-2xl leading-none">Klasse {meta.short}</h3>
+                        <h3 className="font-display text-base leading-none sm:text-2xl">Klasse {meta.short}</h3>
                       </div>
                     </div>
                     {meta.badge && (
-                      <span className="rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-wider text-primary shadow">
+                      <span className="hidden rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-wider text-primary shadow sm:inline-block">
                         {meta.badge}
                       </span>
                     )}
                   </div>
-                  <p className="relative mt-4 text-sm leading-relaxed text-white/80">{meta.tagline}</p>
+                  <p className="relative mt-3 hidden text-sm leading-relaxed text-white/80 sm:mt-4 sm:block">{meta.tagline}</p>
                 </div>
 
-                <div className="flex flex-1 flex-col px-7 pb-7 pt-5">
-                  <div className="mb-5 space-y-3 rounded-2xl border border-border/60 bg-muted/30 p-4">
+                <div className="flex flex-1 flex-col px-3 pb-4 pt-3 sm:px-7 sm:pb-7 sm:pt-5">
+                  <div className="hidden sm:mb-5 sm:block sm:space-y-3 sm:rounded-2xl sm:border sm:border-border/60 sm:bg-muted/30 sm:p-4">
                     <div className="grid grid-cols-3 gap-2">
                       <div className="flex flex-col items-center gap-1 rounded-xl bg-white px-2 py-2 text-center shadow-sm">
                         <RouteIcon className="h-4 w-4 text-primary" />
@@ -209,25 +209,25 @@ function PricesPage() {
                   </div>
                   <ul className="flex-1 divide-y divide-border/60">
                     {items.map((it) => (
-                      <li key={it.id} className="flex items-start justify-between gap-4 py-3.5">
+                      <li key={it.id} className="flex items-start justify-between gap-2 py-1.5 sm:gap-4 sm:py-3.5">
                         <div className="min-w-0">
-                          <p className="text-sm font-semibold leading-tight">{it.title}</p>
+                          <p className="text-[10px] font-semibold leading-tight sm:text-sm">{it.title}</p>
                           {it.description && (
-                            <p className="mt-0.5 text-xs leading-snug text-muted-foreground">{it.description}</p>
+                            <p className="mt-0.5 hidden text-xs leading-snug text-muted-foreground sm:block">{it.description}</p>
                           )}
                           {it.offer_active && it.offer_label && (
-                            <span className="mt-1 inline-block rounded-full bg-primary px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-primary-foreground">
+                            <span className="mt-1 hidden rounded-full bg-primary px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-primary-foreground sm:inline-block">
                               {it.offer_label}
                             </span>
                           )}
                         </div>
                         <div className="flex shrink-0 flex-col items-end gap-0.5">
                           {it.offer_active && it.old_price && (
-                            <span className="text-xs text-muted-foreground line-through">{it.old_price}</span>
+                            <span className="hidden text-xs text-muted-foreground line-through sm:block">{it.old_price}</span>
                           )}
                           <span
                             className={[
-                              "rounded-full px-3 py-1 font-display text-sm",
+                              "rounded-full px-1.5 py-0.5 font-display text-[10px] sm:px-3 sm:py-1 sm:text-sm",
                               it.offer_active
                                 ? "bg-primary text-primary-foreground"
                                 : featured
@@ -242,24 +242,25 @@ function PricesPage() {
                     ))}
                   </ul>
 
-                  <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+                  <div className="mt-3 flex flex-col gap-1.5 sm:mt-6 sm:flex-row sm:gap-2">
                     <a
                       href={CONTACT.whatsapp}
                       target="_blank"
                       rel="noopener"
                       className={[
-                        "inline-flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-bold transition-colors",
+                        "inline-flex flex-1 items-center justify-center gap-1.5 rounded-full px-2 py-2 text-[10px] font-bold transition-colors sm:gap-2 sm:px-4 sm:py-3 sm:text-sm",
                         featured
                           ? "bg-primary text-primary-foreground hover:bg-primary/90"
                           : "bg-foreground text-white hover:bg-primary",
                       ].join(" ")}
                     >
-                      <MessageCircle className="h-4 w-4" />
-                      WhatsApp
+                      <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="hidden sm:inline">WhatsApp</span>
+                      <span className="sm:hidden">Anfragen</span>
                     </a>
                     <Link
                       to="/kontakt"
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-foreground/15 px-4 py-3 text-sm font-bold text-foreground transition-colors hover:border-primary hover:text-primary"
+                      className="hidden flex-1 items-center justify-center gap-2 rounded-full border border-foreground/15 px-4 py-3 text-sm font-bold text-foreground transition-colors hover:border-primary hover:text-primary sm:inline-flex"
                     >
                       <MapPin className="h-4 w-4" />
                       Filiale
