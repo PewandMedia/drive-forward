@@ -1,28 +1,35 @@
-## Plan: Preise-Seite – 3 Klassen nebeneinander auf Mobil
+## Ziel
+Mobile Preise-Karten (`/preise`) neu strukturieren: keine Überlappung von Text und Preis, wichtige Infos sichtbar, Icons deutlich aufgewertet — Desktop bleibt wie er ist.
 
-### Ziel
-Die drei Führerschein-Klassen (B, B197, B78) auf der `/preise`-Seite bereits auf mobilen Viewports nebeneinander darstellen, um Scroll-Tiefe zu reduzieren und die Übersicht zu erhöhen – analog zur Startseite.
+## Änderungen in `src/routes/preise.tsx`
 
-### Änderungen
+### 1. Layout der Preiszeilen (Overlap-Fix)
+Von horizontalem `flex justify-between` auf **vertikalen Stack** auf Mobile umstellen:
+- Titel oben, volle Breite, 2 Zeilen erlaubt (`line-clamp-2`, kein `truncate`)
+- Preis darunter als eigener Chip, rechtsbündig
+- `gap-1`, `py-2`, klare Trennlinien
+- Ab `sm:` zurück auf die bestehende Zweispalten-Zeile
 
-**1. Grid-Breakpoint anpassen**
-- `src/routes/preise.tsx`, Zeile ~121: Grid von `lg:grid-cols-3` auf `grid-cols-3` (ab mobil) umstellen.
-- `gap` reduzieren für engeres Layout auf schmalen Screens.
+### 2. Wichtige Infos wieder einblenden (Mobile)
+Aktuell komplett versteckt — jetzt kompakt zeigen:
+- **Tagline** der Klasse: 2-zeilig unter dem Titel (`text-[10px] text-white/75`)
+- **Info-Box** (Sonderfahrten, Theorie, Voraussetzungen): als 3 winzige Stat-Pills nebeneinander unter dem Header (`grid-cols-3`, nur Zahl + 1-Wort-Label, z.B. „12 Sonder" / „14 Theorie" / „17+ Alter")
+- **Angebots-Badge** und **durchgestrichener Alt-Preis**: klein aber sichtbar (nicht mehr `hidden`)
+- Item-Beschreibungen bleiben versteckt (zu lang), aber Angebots-Label wird angezeigt
 
-**2. Karten-Inhalt komprimieren**
-- Header-Bereich (Icon + Titel): Kleineres Padding und reduzierte Schriftgrößen auf mobil (`sm:`-Prefix entfernen oder verkleinern).
-- Tagline: Auf mobilen Viewports ausblenden oder auf 1 Zeile begrenzen.
-- Info-Box (Sonderfahrten + Theorie/Mindestalter/Prüfung/Voraussetzungen): Auf mobil ausblenden oder auf 3 Mini-Stat-Badges reduzieren.
-- Preisliste (`items.map`): Nur Titel + Preis anzeigen, Beschreibung und Angebots-Badge auf mobil verstecken.
-- CTAs (WhatsApp + Filiale): Buttons auf Icon-only oder einzeiligen kompakten Stil reduzieren.
+### 3. Icons aufwerten (Desktop + Mobile)
+Aktuell nur ein Lucide-Icon in einem grauen Kasten. Neu:
+- Icon-Container: **Gradient-Ring** (Primary → Weiß-Glow), inner `bg-white/15 backdrop-blur`
+- **Rotierender/pulsierender Glow** hinter dem Icon (radial-gradient, `animate-pulse` oder custom `@keyframes`)
+- Icon selbst: `drop-shadow` + leichte Größensteigerung
+- Auf `featured`-Karte: goldener Akzent-Ring statt weiß
+- Mobile: `h-10 w-10` (statt 8) mit demselben Premium-Look
 
-**3. Featured-Karte (B197) beibehalten**
-- Roter Header und "Am beliebtesten"-Badge bleiben erhalten.
-- `lg:-translate-y-3 lg:scale-[1.02]` bleibt Desktop-only.
+### 4. CTA-Bereich Mobile
+- „Anfragen" Button bleibt, aber mit sichtbarem WhatsApp-Icon und `font-black`
+- Kleine „Details"-Link darunter statt komplett versteckt
 
-**4. TÜV-Gebühren & Bottom-CTAs**
-- TÜV-Sektion (`sm:grid-cols-2`) und Bottom-Links bleiben unverändert.
-
-### Ergebnis
-- Mobile: 3 kompakte Spalten nebeneinander, essenzielle Infos sichtbar (Klasse, Basis-Preis, CTA), sekundäre Details ausgeblendet.
-- Tablet/Desktop: Volle Darstellung wie bisher.
+## Technisch
+- Nur `src/routes/preise.tsx`
+- Neue Keyframe-Animation für Icon-Glow evtl. in `src/styles.css` (`@keyframes icon-glow`)
+- Kein Business-Logic-Change
