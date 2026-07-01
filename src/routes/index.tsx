@@ -113,11 +113,14 @@ function Index() {
   const team = teamQ.data ?? [];
   const faInfo = faQ.data;
 
-  const hasActiveOffer = prices.some((p: any) => p.offer_active);
+  const hasActiveOffer = prices.some((p: any) => isOfferLive(p));
 
-  const priceFor = (cat: string) => {
-    const grund = prices.find((p) => p.category === cat && /grundbetrag/i.test(p.title));
-    return grund?.price ?? prices.find((p) => p.category === cat)?.price ?? "";
+  const rowFor = (cat: string) => {
+    return (
+      prices.find((p) => p.category === cat && /grundbetrag/i.test(p.title)) ??
+      prices.find((p) => p.category === cat) ??
+      null
+    );
   };
 
   return (
