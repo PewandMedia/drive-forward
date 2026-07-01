@@ -181,7 +181,7 @@ function Index() {
               </div>
 
               {/* Car */}
-              <div className="relative z-10 w-full">
+              <div className="animate-drive-in-right relative z-10 w-full">
               <img
                 src={miroCarAsset.url}
                 alt="MIRO-DRIVE Fahrschulauto Bochum – das echte Schulungsfahrzeug der Fahrschule MIRO-DRIVE"
@@ -189,7 +189,7 @@ function Index() {
                 height={1024}
                 loading="eager"
                 fetchPriority="high"
-                className="animate-drive-in-right relative mx-auto block w-[112%] max-w-none -translate-x-[6%] object-contain drop-shadow-[0_24px_26px_rgba(15,15,15,0.22)] sm:w-[106%] sm:-translate-x-[3%] md:w-full md:translate-x-0 lg:w-[118%] lg:-translate-x-[5%] xl:w-[124%] xl:-translate-x-[7%]"
+                className="relative mx-auto block w-[112%] max-w-none -translate-x-[6%] object-contain drop-shadow-[0_24px_26px_rgba(15,15,15,0.22)] sm:w-[106%] sm:-translate-x-[3%] md:w-full md:translate-x-0 lg:w-[118%] lg:-translate-x-[5%] xl:w-[124%] xl:-translate-x-[7%]"
               />
               {/* ground shadow */}
               <div className="pointer-events-none absolute bottom-[5%] left-1/2 h-4 w-[74%] -translate-x-1/2 rounded-[50%] bg-foreground/25 blur-xl sm:h-5 lg:h-7 lg:w-[78%] lg:blur-2xl" />
