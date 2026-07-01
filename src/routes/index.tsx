@@ -357,7 +357,7 @@ function Index() {
             Alle Preise ansehen <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
+        <div className="grid grid-cols-3 gap-2.5 items-stretch sm:gap-4 md:gap-6">
           {PRICE_CLASSES.map((c) => {
             const grund = priceFor(c.key);
             const featured = c.featured;
@@ -366,38 +366,38 @@ function Index() {
                 key={c.key}
                 to="/preise"
                 className={[
-                  "group relative flex flex-col justify-between overflow-hidden p-8 transition-all duration-300",
+                  "group relative flex flex-col justify-between overflow-hidden p-3 transition-all duration-300 sm:p-6 lg:p-8",
                   featured
                     ? "z-10 bg-foreground text-white shadow-2xl md:scale-[1.03]"
                     : "border-2 border-black/5 bg-white shadow-sm hover:-translate-y-1 hover:border-foreground hover:shadow-xl",
                 ].join(" ")}
               >
                 {featured && (
-                  <span className="absolute right-0 top-0 bg-primary px-4 py-1 font-display text-[10px] uppercase tracking-widest text-primary-foreground">
+                  <span className="absolute right-0 top-0 bg-primary px-2 py-0.5 font-display text-[8px] uppercase tracking-widest text-primary-foreground sm:px-4 sm:py-1 sm:text-[10px]">
                     Beliebt
                   </span>
                 )}
                 <div>
                   <div
                     className={[
-                      "mb-8 grid h-12 w-12 place-items-center rounded-full",
+                      "mb-4 grid h-9 w-9 place-items-center rounded-full sm:mb-8 sm:h-12 sm:w-12",
                       featured ? "bg-primary text-primary-foreground" : "bg-foreground text-white",
                     ].join(" ")}
                   >
-                    <c.icon className="h-6 w-6" />
+                    <c.icon className="h-4 w-4 sm:h-6 sm:w-6" />
                   </div>
-                  <h3 className="mb-2 font-display text-3xl leading-tight tracking-tighter">
+                  <h3 className="mb-1 font-display text-lg leading-tight tracking-tighter sm:mb-2 sm:text-3xl">
                     Klasse {c.short}
                   </h3>
                   <p
                     className={[
-                      "mb-6 text-xs font-semibold uppercase tracking-wider",
+                      "mb-4 hidden text-xs font-semibold uppercase tracking-wider sm:mb-6 sm:block",
                       featured ? "text-white/60" : "text-muted-foreground",
                     ].join(" ")}
                   >
                     {c.tagline}
                   </p>
-                  <ul className="mb-10 space-y-3">
+                  <ul className="mb-4 hidden space-y-3 sm:mb-10 sm:block">
                     {c.highlights.map((h) => (
                       <li key={h} className="flex items-center gap-3 text-sm font-bold">
                         <span className="h-2 w-2 rounded-full bg-primary" />
@@ -409,24 +409,24 @@ function Index() {
                 {grund && (
                   <div
                     className={[
-                      "flex items-end justify-between border-t pt-6",
+                      "flex items-end justify-between border-t pt-3 sm:pt-6",
                       featured ? "border-white/10" : "border-black/10",
                     ].join(" ")}
                   >
-                    <div>
+                    <div className="min-w-0">
                       <p
                         className={[
-                          "mb-1 text-[10px] font-black uppercase tracking-[0.2em]",
+                          "mb-1 text-[8px] font-black uppercase tracking-[0.15em] sm:text-[10px] sm:tracking-[0.2em]",
                           featured ? "text-white/40" : "text-muted-foreground",
                         ].join(" ")}
                       >
-                        Grundbetrag ab
+                        Ab
                       </p>
-                      <p className="font-display text-4xl text-primary">{grund}</p>
+                      <p className="font-display text-xl text-primary sm:text-4xl">{grund}</p>
                     </div>
                     <div
                       className={[
-                        "flex h-10 w-10 items-center justify-center transition-colors",
+                        "hidden h-10 w-10 items-center justify-center transition-colors sm:flex",
                         featured
                           ? "bg-white/10 text-white group-hover:bg-primary"
                           : "border border-black/10 text-foreground group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground",
