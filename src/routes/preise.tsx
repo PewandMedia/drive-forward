@@ -41,6 +41,7 @@ export const Route = createFileRoute("/preise")({
 type CategoryMeta = {
   key: string;
   short: string;
+  mobileLabel: string;
   tagline: string;
   icon: typeof Car;
   featured?: boolean;
@@ -57,6 +58,7 @@ const CATEGORIES: CategoryMeta[] = [
   {
     key: "Klasse B",
     short: "B",
+    mobileLabel: "Klasse B – Schaltgetriebe",
     tagline: "Klassischer Führerschein mit Schaltgetriebe – volle Flexibilität.",
     icon: Car,
     sonderfahrten: { ueberland: 5, autobahn: 4, dunkel: 3 },
@@ -68,6 +70,7 @@ const CATEGORIES: CategoryMeta[] = [
   {
     key: "Klasse B197",
     short: "B197",
+    mobileLabel: "Klasse B197 – Automatik mit Schaltberechtigung",
     tagline: "Ausbildung auf Automatik – Führerschein gilt trotzdem für Schalter.",
     icon: Sparkles,
     featured: true,
@@ -82,6 +85,7 @@ const CATEGORIES: CategoryMeta[] = [
   {
     key: "Klasse B78",
     short: "B78",
+    mobileLabel: "Klasse B78 – Reine Automatik",
     tagline: "Reine Automatik-Klasse – schneller und entspannter ans Ziel.",
     icon: Cog,
     sonderfahrten: { ueberland: 5, autobahn: 4, dunkel: 3 },
@@ -169,7 +173,10 @@ function PricesPage() {
                         <div className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/70 sm:text-[11px]">
                           Führerschein
                         </div>
-                        <h3 className="font-display text-xl leading-none sm:text-2xl">Klasse {meta.short}</h3>
+                        <h3 className="font-display text-xl leading-none sm:text-2xl">
+                          <span className="sm:hidden">{meta.mobileLabel}</span>
+                          <span className="hidden sm:inline">Klasse {meta.short}</span>
+                        </h3>
                         <p className="mt-1 line-clamp-1 text-[11px] text-white/70 sm:hidden">{meta.tagline}</p>
                       </div>
                     </div>
