@@ -421,7 +421,7 @@ function Index() {
                   <p
                     className={[
                       "mb-4 hidden text-xs font-semibold uppercase tracking-wider sm:mb-6 sm:block",
-                      featured ? "text-white/60" : "text-muted-foreground",
+                      live ? "text-muted-foreground" : featured ? "text-white/60" : "text-muted-foreground",
                     ].join(" ")}
                   >
                     {c.tagline}
