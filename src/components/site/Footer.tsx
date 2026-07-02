@@ -1,16 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Phone, Mail, MapPin, Navigation } from "lucide-react";
+import { Phone, Mail, MapPin, Navigation } from "lucide-react";
+import { InstagramLogoIcon, TikTokIcon } from "@/components/icons/TikTokIcon";
 import logoAsset from "@/assets/miro-drive-logo.svg.asset.json";
 import { CONTACT, NAV_LINKS } from "@/lib/contact";
 import { LOCATIONS, navigationUrl, fullAddress } from "@/lib/locations";
 
-function TikTokIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
-      <path d="M19.5 6.7a5.7 5.7 0 0 1-3.6-1.3v8.9a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v2.9a2.8 2.8 0 1 0 2 2.6V2h2.8a5.7 5.7 0 0 0 3.5 4.7v0z" />
-    </svg>
-  );
-}
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
@@ -33,7 +27,7 @@ export function Footer() {
               <WhatsAppIcon className="h-5 w-5" />
             </a>
             <a href={CONTACT.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="rounded-full p-2.5 hover:scale-105 transition-transform" style={{ background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)' }}>
-              <Instagram className="h-5 w-5" />
+              <InstagramLogoIcon className="h-5 w-5 text-white" />
             </a>
             <a href={CONTACT.tiktok} target="_blank" rel="noopener" aria-label="TikTok" className="rounded-full bg-black p-2.5 text-white hover:scale-105 transition-transform">
               <TikTokIcon className="h-5 w-5" />
