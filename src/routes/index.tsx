@@ -89,7 +89,7 @@ function Index() {
       {
         queryKey: ["home-prices"],
         queryFn: async () => {
-          const { data, error } = await supabase.from("prices").select("category,title,price,old_price,offer_label,offer_active,offer_valid_from,offer_valid_until").eq("active", true);
+          const { data, error } = await supabase.from("prices").select("category,title,price,old_price,offer_label,offer_note,offer_active,offer_valid_from,offer_valid_until").eq("active", true);
           if (error) throw error;
           return data ?? [];
         },
@@ -409,6 +409,9 @@ function Index() {
                       <p className={["font-display text-primary", live ? "text-2xl sm:text-5xl drop-shadow-sm" : "text-xl sm:text-4xl"].join(" ")}>{grund}</p>
                       {remaining && (
                         <p className="mt-1 text-[9px] font-bold text-primary sm:text-[11px]">⏰ {remaining}</p>
+                      )}
+                      {live && row?.offer_note && (
+                        <p className={["mt-1 hidden text-[10px] italic leading-snug sm:block", featured ? "text-white/70" : "text-muted-foreground"].join(" ")}>{row.offer_note}</p>
                       )}
                     </div>
                     <div

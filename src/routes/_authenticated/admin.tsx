@@ -206,30 +206,102 @@ function PricesAdmin() {
   );
 }
 
+const OFFER_PRESETS: { label: string; note?: string; days?: number }[] = [
+  { label: "🎄 Weihnachts-Aktion", note: "Nur solange der Vorrat reicht – perfektes Geschenk unterm Baum.", days: 30 },
+  { label: "🎆 Silvester-Special", note: "Starte mit deinem Führerschein ins neue Jahr.", days: 14 },
+  { label: "🐰 Oster-Aktion", note: "Frisch in den Frühling mit deinem Führerschein.", days: 21 },
+  { label: "☀️ Sommer-Aktion", note: "Ferien nutzen und Führerschein in Rekordzeit machen.", days: 45 },
+  { label: "🍂 Herbst-Aktion", note: "Perfekter Start ins neue Semester.", days: 30 },
+  { label: "🌸 Frühlings-Aktion", note: "Neue Saison, neuer Führerschein.", days: 30 },
+  { label: "🖤 Black Friday", note: "Nur wenige Tage – Rabatt-Wochenende bei MIRO-DRIVE.", days: 4 },
+  { label: "🎓 Ferien-Special", note: "Ideal für Schüler & Studenten in den Ferien.", days: 30 },
+  { label: "💐 Muttertag-Aktion", note: "Verschenke Freiheit – Führerschein zum Muttertag.", days: 14 },
+  { label: "👔 Vatertag-Aktion", note: "Der Klassiker unter den Geschenken.", days: 14 },
+];
+
+function toDateInput(iso?: string | null): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+function fromDateInput(v: string, endOfDay = false): string | null {
+  if (!v) return null;
+  const d = new Date(v + (endOfDay ? "T23:59:59" : "T00:00:00"));
+  return isNaN(d.getTime()) ? null : d.toISOString();
+}
+function extractNumber(s: string | null | undefined): string {
+  if (!s) return "";
+  const m = String(s).match(/(\d+(?:[.,]\d+)?)/);
+  return m ? m[1].replace(",", ".") : "";
+}
+
 function PriceDialog({ initial, group }: { initial?: any; group?: PriceGroup }) {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
   const isEdit = !!initial;
   const isGroupEdit = !!group && group.isClassGroup;
   const [applyAllClasses, setApplyAllClasses] = useState(!isEdit);
+
+  // Controlled offer state
+  const [priceNum, setPriceNum] = useState<string>(extractNumber(initial?.price));
+  const [offerActive, setOfferActive] = useState<boolean>(!!initial?.offer_active);
+  const [oldPriceNum, setOldPriceNum] = useState<string>(extractNumber(initial?.old_price));
+  const [offerLabel, setOfferLabel] = useState<string>(initial?.offer_label ?? "");
+  const [offerNote, setOfferNote] = useState<string>(initial?.offer_note ?? "");
+  const [validFrom, setValidFrom] = useState<string>(toDateInput(initial?.offer_valid_from));
+  const [validUntil, setValidUntil] = useState<string>(toDateInput(initial?.offer_valid_until));
+
+  // When Angebot is toggled on and old price is empty → auto-fill with current price
+  useEffect(() => {
+    if (offerActive && !oldPriceNum && priceNum) setOldPriceNum(priceNum);
+  }, [offerActive]);
+
+  function applyPreset(preset: typeof OFFER_PRESETS[number]) {
+    setOfferActive(true);
+    setOfferLabel(preset.label);
+    if (preset.note && !offerNote) setOfferNote(preset.note);
+    if (preset.days) {
+      const today = new Date();
+      const end = new Date();
+      end.setDate(end.getDate() + preset.days);
+      setValidFrom(toDateInput(today.toISOString()));
+      setValidUntil(toDateInput(end.toISOString()));
+    }
+    if (!oldPriceNum && priceNum) setOldPriceNum(priceNum);
+  }
+
+  function quickRange(days: number | "eom" | "eoy") {
+    const start = new Date();
+    let end: Date;
+    if (days === "eom") { end = new Date(start.getFullYear(), start.getMonth() + 1, 0); }
+    else if (days === "eoy") { end = new Date(start.getFullYear(), 11, 31); }
+    else { end = new Date(); end.setDate(end.getDate() + days); }
+    setValidFrom(toDateInput(start.toISOString()));
+    setValidUntil(toDateInput(end.toISOString()));
+  }
+
   const save = useMutation({
     mutationFn: async (form: FormData) => {
+      const priceStr = priceNum ? `${priceNum} €` : "";
+      const oldStr = offerActive && oldPriceNum ? `${oldPriceNum} €` : null;
       const row = {
         category: String(form.get("category") || ""),
         title: String(form.get("title") || ""),
         description: String(form.get("description") || "") || null,
-        price: String(form.get("price") || ""),
+        price: priceStr,
         sort_order: Number(form.get("sort_order") || 0),
         active: form.get("active") === "on",
-        offer_active: form.get("offer_active") === "on",
-        old_price: String(form.get("old_price") || "") || null,
-        offer_label: String(form.get("offer_label") || "") || null,
-        offer_valid_from: (form.get("offer_valid_from") as string) ? new Date(form.get("offer_valid_from") as string).toISOString() : null,
-        offer_valid_until: (form.get("offer_valid_until") as string) ? new Date(form.get("offer_valid_until") as string).toISOString() : null,
+        offer_active: offerActive,
+        old_price: oldStr,
+        offer_label: offerActive ? (offerLabel || null) : null,
+        offer_note: offerActive ? (offerNote || null) : null,
+        offer_valid_from: offerActive ? fromDateInput(validFrom, false) : null,
+        offer_valid_until: offerActive ? fromDateInput(validUntil, true) : null,
       };
       if (isEdit) {
         if (isGroupEdit) {
-          // Bulk update all rows in the group; keep per-row category/title/sort_order.
           const { category: _c, title: _t, sort_order: _s, ...shared } = row;
           const { error } = await supabase.from("prices").update(shared).in("id", group!.rows.map((r) => r.id));
           if (error) throw error;
@@ -258,13 +330,14 @@ function PriceDialog({ initial, group }: { initial?: any; group?: PriceGroup }) 
     },
     onError: (e: any) => toast.error(e.message),
   });
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {isEdit ? <Button size="icon" variant="ghost"><Pencil className="h-4 w-4" /></Button>
                : <Button className="rounded-full"><Plus className="h-4 w-4" /> Preis hinzufügen</Button>}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {isEdit ? (isGroupEdit ? `Preis „${group!.title}" bearbeiten (gilt für alle Klassen)` : "Preis bearbeiten") : "Neuer Preis"}
@@ -298,32 +371,125 @@ function PriceDialog({ initial, group }: { initial?: any; group?: PriceGroup }) 
           )}
           <div><Label>Beschreibung</Label><Textarea name="description" rows={2} defaultValue={initial?.description ?? ""} /></div>
           <div className="grid grid-cols-2 gap-3">
-            <div><Label>Preis</Label><Input name="price" required defaultValue={initial?.price} placeholder="z. B. 60 €" /></div>
+            <div>
+              <Label>{offerActive ? "Aktions-Preis (€)" : "Preis (€)"}</Label>
+              <Input
+                type="number"
+                inputMode="decimal"
+                step="0.01"
+                min="0"
+                value={priceNum}
+                onChange={(e) => setPriceNum(e.target.value)}
+                required
+                placeholder="z. B. 150"
+              />
+            </div>
             {!isGroupEdit && (
               <div><Label>Sortierung</Label><Input name="sort_order" type="number" defaultValue={initial?.sort_order ?? 0} /></div>
             )}
           </div>
+
           <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
             <label className="flex items-center gap-2 text-sm font-bold">
-              <input type="checkbox" name="offer_active" defaultChecked={initial?.offer_active ?? false} />
+              <input type="checkbox" checked={offerActive} onChange={(e) => setOfferActive(e.target.checked)} />
               Angebot / Aktion aktiv
             </label>
-            <p className="mt-1 text-xs text-muted-foreground">Wenn aktiv, wird der alte Preis durchgestrichen und ein Aktions-Badge angezeigt.</p>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <div><Label>Alter Preis (durchgestrichen)</Label><Input name="old_price" defaultValue={initial?.old_price ?? ""} placeholder="z. B. 299 €" /></div>
-              <div><Label>Aktions-Label</Label><Input name="offer_label" defaultValue={initial?.offer_label ?? ""} placeholder="z. B. -30% / Sommer-Aktion" /></div>
-            </div>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <div>
-                <Label>Gültig ab</Label>
-                <Input name="offer_valid_from" type="datetime-local" defaultValue={initial?.offer_valid_from ? new Date(initial.offer_valid_from).toISOString().slice(0,16) : ""} />
-              </div>
-              <div>
-                <Label>Gültig bis</Label>
-                <Input name="offer_valid_until" type="datetime-local" defaultValue={initial?.offer_valid_until ? new Date(initial.offer_valid_until).toISOString().slice(0,16) : ""} />
-              </div>
-            </div>
-            <p className="mt-2 text-[11px] text-muted-foreground">Nach Ablauf wird das Angebot automatisch ausgeblendet. Leer lassen = unbegrenzt.</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Der aktuelle Preis wird zum Aktionspreis. Der alte Preis wird durchgestrichen darüber angezeigt.
+            </p>
+
+            {offerActive && (
+              <>
+                <div className="mt-3">
+                  <Label className="text-xs">Anlass auswählen</Label>
+                  <div className="mt-1 flex flex-wrap gap-1.5">
+                    {OFFER_PRESETS.map((p) => (
+                      <button
+                        type="button"
+                        key={p.label}
+                        onClick={() => applyPreset(p)}
+                        className={[
+                          "rounded-full border px-2.5 py-1 text-[11px] font-semibold transition",
+                          offerLabel === p.label
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-white hover:border-primary hover:text-primary",
+                        ].join(" ")}
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <div>
+                    <Label>Alter Preis (€)</Label>
+                    <Input
+                      type="number"
+                      inputMode="decimal"
+                      step="0.01"
+                      min="0"
+                      value={oldPriceNum}
+                      onChange={(e) => setOldPriceNum(e.target.value)}
+                      placeholder="wird automatisch übernommen"
+                    />
+                    <p className="mt-1 text-[10px] text-muted-foreground">Wird durchgestrichen angezeigt.</p>
+                  </div>
+                  <div>
+                    <Label>Aktions-Label (frei änderbar)</Label>
+                    <Input
+                      value={offerLabel}
+                      onChange={(e) => setOfferLabel(e.target.value)}
+                      placeholder="z. B. Sommer-Aktion"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <Label>Notiz zur Aktion (optional)</Label>
+                  <Textarea
+                    rows={2}
+                    value={offerNote}
+                    onChange={(e) => setOfferNote(e.target.value)}
+                    placeholder="z. B. Nur für Neuanmeldungen bis Monatsende. Wird direkt unter dem Preis angezeigt."
+                  />
+                </div>
+
+                <div className="mt-3">
+                  <Label className="text-xs">Schnell-Auswahl Zeitraum</Label>
+                  <div className="mt-1 flex flex-wrap gap-1.5">
+                    {[
+                      { label: "7 Tage", d: 7 as const },
+                      { label: "14 Tage", d: 14 as const },
+                      { label: "30 Tage", d: 30 as const },
+                      { label: "Bis Monatsende", d: "eom" as const },
+                      { label: "Bis Jahresende", d: "eoy" as const },
+                    ].map((q) => (
+                      <button
+                        type="button"
+                        key={q.label}
+                        onClick={() => quickRange(q.d)}
+                        className="rounded-full border border-border bg-white px-2.5 py-1 text-[11px] font-semibold hover:border-primary hover:text-primary"
+                      >
+                        {q.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <div>
+                    <Label>Gültig ab</Label>
+                    <Input type="date" value={validFrom} onChange={(e) => setValidFrom(e.target.value)} />
+                  </div>
+                  <div>
+                    <Label>Gültig bis</Label>
+                    <Input type="date" value={validUntil} onChange={(e) => setValidUntil(e.target.value)} />
+                  </div>
+                </div>
+                <p className="mt-2 text-[11px] text-muted-foreground">Nach Ablauf wird das Angebot automatisch ausgeblendet. Leer lassen = unbegrenzt.</p>
+              </>
+            )}
           </div>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="active" defaultChecked={initial?.active ?? true} /> Aktiv</label>
           <DialogFooter><Button type="submit" className="rounded-full">Speichern</Button></DialogFooter>
