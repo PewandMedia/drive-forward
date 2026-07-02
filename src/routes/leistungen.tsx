@@ -71,7 +71,7 @@ function LeistungenPage() {
         </div>
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-3xl border bg-muted/30 p-8">
           <p className="font-display text-xl">Du hast Fragen zu einer Leistung?</p>
-          <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="inline-flex rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">Per WhatsApp fragen</a>
+          <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="inline-flex rounded-full bg-[#25D366] px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90">Per WhatsApp fragen</a>
         </div>
       </div>
     </SiteLayout>

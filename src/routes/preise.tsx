@@ -291,12 +291,7 @@ function PricesPage() {
                       href={CONTACT.whatsapp}
                       target="_blank"
                       rel="noopener"
-                      className={[
-                        "inline-flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2.5 text-xs font-black transition-colors sm:gap-2 sm:px-4 sm:py-3 sm:text-sm",
-                        featured
-                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                          : "bg-foreground text-white hover:bg-primary",
-                      ].join(" ")}
+                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#25D366] px-3 py-2.5 text-xs font-black text-white transition-all hover:opacity-90 sm:gap-2 sm:px-4 sm:py-3 sm:text-sm"
                     >
                       <MessageCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       <span>WhatsApp</span>

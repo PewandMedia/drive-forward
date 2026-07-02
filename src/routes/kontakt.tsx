@@ -43,10 +43,10 @@ function ContactPage() {
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="flex items-center gap-3 rounded-2xl border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-md">
-            <div className="rounded-full bg-[#25D366] p-2.5 text-white"><MessageCircle className="h-4 w-4" /></div>
+          <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="flex items-center gap-3 rounded-2xl border bg-[#25D366] p-5 text-white transition-all hover:-translate-y-0.5 hover:shadow-md">
+            <div className="rounded-full bg-white/20 p-2.5 text-white"><MessageCircle className="h-4 w-4" /></div>
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">WhatsApp</div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-white/70">WhatsApp</div>
               <div className="text-sm font-bold">{CONTACT.whatsappText}</div>
             </div>
           </a>

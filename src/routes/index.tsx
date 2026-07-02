@@ -163,7 +163,7 @@ function Index() {
               </p>
 
               <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-3">
-                <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-bold text-primary-foreground shadow-xl shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-primary/30 sm:col-span-1 sm:px-7 sm:py-4 sm:text-sm">
+                <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-xs font-bold text-white shadow-xl shadow-[#25D366]/25 transition-all hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#25D366]/30 sm:col-span-1 sm:px-7 sm:py-4 sm:text-sm">
                   <MessageCircle className="h-4 w-4" /> Jetzt per WhatsApp anmelden
                 </a>
                 <Link to="/preise" className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-xs font-bold text-background transition-all hover:-translate-y-0.5 hover:bg-foreground/90 sm:px-7 sm:py-4 sm:text-sm">
@@ -248,8 +248,8 @@ function Index() {
                   <p className="mt-2 font-display text-lg leading-tight sm:text-2xl">
                     Schreib uns per WhatsApp – wir antworten meist innerhalb weniger Minuten.
                   </p>
-                  <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
-                    Chat starten <ArrowRight className="h-4 w-4" />
+                  <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-bold text-white transition-all hover:opacity-90">
+                    <MessageCircle className="h-4 w-4" /> Chat starten
                   </a>
                 </div>
               </div>
