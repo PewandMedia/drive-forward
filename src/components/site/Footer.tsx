@@ -24,9 +24,7 @@ export function Footer() {
     <footer className="mt-24 bg-[#0a0a0a] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8">
         <div className="lg:col-span-3">
-          <div className="rounded-lg bg-white p-3 inline-block">
-            <img src={logoAsset.url} alt="MIRO-DRIVE" className="h-10 w-auto" />
-          </div>
+          <img src={logoAsset.url} alt="MIRO-DRIVE" className="h-10 w-auto brightness-0 invert" />
           <p className="mt-4 text-sm text-white/70">
             MIRO-DRIVE ist deine moderne Fahrschule für eine sichere, transparente und stressfreie Führerscheinausbildung.
           </p>
