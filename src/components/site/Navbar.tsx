@@ -131,7 +131,7 @@ export function Navbar() {
                 onClick={() => setOpen(false)}
                 className="relative text-2xl font-bold text-foreground/80 transition-colors hover:text-primary"
                 activeProps={{ className: "text-primary" }}
-                activeOptions={{ exact: l.to === "/" }}
+                activeOptions={{ exact: true }}
               >
                 {l.label}
                 {l.to === "/preise" && hasOffer && (
