@@ -89,7 +89,7 @@ function Index() {
       {
         queryKey: ["home-prices"],
         queryFn: async () => {
-          const { data, error } = await supabase.from("prices").select("category,title,price,old_price,offer_label,offer_active,offer_valid_from,offer_valid_until").eq("active", true);
+          const { data, error } = await supabase.from("prices").select("category,title,price,old_price,offer_label,offer_note,offer_active,offer_valid_from,offer_valid_until").eq("active", true);
           if (error) throw error;
           return data ?? [];
         },
