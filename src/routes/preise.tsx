@@ -173,7 +173,10 @@ function PricesPage() {
                         <div className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/70 sm:text-[11px]">
                           Führerschein
                         </div>
-                        <h3 className="font-display text-xl leading-none sm:text-2xl">Klasse {meta.short}</h3>
+                        <h3 className="font-display text-xl leading-none sm:text-2xl">
+                          <span className="sm:hidden">{meta.mobileLabel}</span>
+                          <span className="hidden sm:inline">Klasse {meta.short}</span>
+                        </h3>
                         <p className="mt-1 line-clamp-1 text-[11px] text-white/70 sm:hidden">{meta.tagline}</p>
                       </div>
                     </div>
