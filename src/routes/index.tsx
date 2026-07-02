@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Fahrschule Bochum | MIRO-DRIVE – Führerschein Klasse B & B197" },
-      { name: "description", content: "MIRO-DRIVE ist deine moderne Fahrschule in Bochum für Klasse B, B197, Auffrischungsstunden, Erste-Hilfe-Kurs und persönliche Beratung. Jetzt anmelden." },
+      { name: "description", content: "MIRO-DRIVE ist deine moderne Fahrschule in Bochum für Klasse B, B197, B78, Erste-Hilfe-Kurs und persönliche Beratung. Jetzt anmelden." },
       { property: "og:title", content: "Fahrschule Bochum | MIRO-DRIVE" },
       { property: "og:description", content: "Moderne Fahrschule in Bochum – Klasse B, B197, Fahrstunden & Erste-Hilfe-Kurs. Jetzt per WhatsApp anmelden." },
       { property: "og:url", content: "/" },
