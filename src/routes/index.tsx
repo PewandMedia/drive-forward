@@ -248,8 +248,8 @@ function Index() {
                   <p className="mt-2 font-display text-lg leading-tight sm:text-2xl">
                     Schreib uns per WhatsApp – wir antworten meist innerhalb weniger Minuten.
                   </p>
-                  <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
-                    Chat starten <ArrowRight className="h-4 w-4" />
+                  <a href={CONTACT.whatsapp} target="_blank" rel="noopener" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-bold text-white transition-all hover:opacity-90">
+                    <MessageCircle className="h-4 w-4" /> Chat starten
                   </a>
                 </div>
               </div>

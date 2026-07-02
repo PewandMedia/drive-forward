@@ -29,7 +29,7 @@ export function Footer() {
             MIRO-DRIVE ist deine moderne Fahrschule für eine sichere, transparente und stressfreie Führerscheinausbildung.
           </p>
           <div className="mt-5 flex gap-3">
-            <a href={CONTACT.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp" className="rounded-full bg-primary p-2.5 hover:scale-105 transition-transform">
+            <a href={CONTACT.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp" className="rounded-full bg-[#25D366] p-2.5 hover:scale-105 transition-transform">
               <WhatsAppIcon className="h-5 w-5" />
             </a>
             <a href={CONTACT.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="rounded-full bg-white/10 p-2.5 hover:bg-white/20">
