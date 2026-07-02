@@ -1,14 +1,17 @@
-## Ziel
-Das MIRO-DRIVE Logo im Header soll auf mobilen Viewports (unter `lg`) horizontal zentriert werden. Der Hamburger-Menü-Button bleibt rechts.
+Wenn man im mobilen Viewport auf das Hamburger-Menü tippt, soll die Navigation als **Fullscreen-Overlay** erscheinen – nicht mehr als schmales Dropdown unter dem Header.
 
-## Schritte
-1. **Datei öffnen:** `src/components/site/Navbar.tsx`
-2. **Layout anpassen:**
-   - Dem inneren Flex-Container (`<div className="mx-auto flex ...">`) die Klasse `relative` hinzufügen.
-   - Dem Logo-Link (`<Link to="/">`) die Klassen `absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0` hinzufügen, damit er auf Mobil absolut mittig und auf Desktop wieder normal linksbündig ist.
-3. **Verifikation:** Im Live-Preview prüfen, ob das Logo auf Mobil (390px) zentriert ist und auf Desktop (`lg`) weiterhin links ausgerichtet bleibt.
+### Was gemacht wird
+1. **Datei**: `src/components/site/Navbar.tsx`
+2. **Mobile Navigation wird zu einem Fullscreen-Overlay** umgebaut:
+   - Overlay deckt die **gesamte Viewport-Höhe und -Breite** ab (`fixed inset-0 z-50`).
+   - **Oben**: MIRO-DRIVE Logo + X-Schließen-Button (rechts).
+   - **Mitte**: Alle Nav-Links in großer, klarer Darstellung (untereinander).
+   - **Unten**: CTA-Button „Jetzt anmelden".
+3. **Body-Scroll-Lock**: Sobald das Menü offen ist, kann man die Seite im Hintergrund nicht mehr scrollen.
+4. **Animation**: Ein simpler Ein-/Ausblend-Effekt (z. B. `opacity` + `translate-y`) für ein modernes Gefühl.
+5. **Desktop bleibt komplett unverändert**.
 
-## Technische Details
-- Verwendet bestehende Tailwind-Breakpoints (`lg:`).
-- Keine neuen Abhängigkeiten.
-- Keine Änderungen an Desktop-Layout oder Menü-Funktionalität.
+### Technische Details
+- Nutzt ausschließlich Tailwind CSS Utilities (kein neues Paket).
+- Scroll-Lock via `document.body.style.overflow = 'hidden'` beim Öffnen, Rücksetzen beim Schließen/Unmount.
+- Overlay schließt sich auch beim Klick auf einen Link (bestehendes Verhalten bleibt).
