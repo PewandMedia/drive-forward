@@ -109,7 +109,7 @@ export function Navbar() {
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-[100] flex h-[100dvh] animate-fade-up flex-col overflow-hidden bg-white lg:hidden">
+        <div className="fixed inset-0 z-[100] flex h-[100dvh] flex-col overflow-hidden bg-white lg:hidden">
           <div className="flex h-20 items-center justify-between px-4 sm:px-6">
             <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
               <img src={logoAsset.url} alt="MIRO-DRIVE Fahrschule" className="h-10 w-auto" />
@@ -123,7 +123,7 @@ export function Navbar() {
             </button>
           </div>
 
-          <nav className="flex flex-1 flex-col items-center justify-center gap-6 px-6">
+          <nav className="flex flex-1 animate-fade-up flex-col items-center justify-center gap-6 px-6">
             {mobileNavLinks.map((l) => (
               <Link
                 key={l.to}
