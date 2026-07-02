@@ -194,7 +194,8 @@ function Index() {
                     <img
                       src={logoAsset.url}
                       alt="MIRO-DRIVE Fahrschule Bochum Logo"
-                      className="h-12 w-auto sm:h-20"
+                      className="h-12 w-auto cursor-pointer sm:h-20"
+                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                     />
                     <div className="mt-4 flex items-center gap-3">
                       <span className="h-px w-8 bg-primary" />
