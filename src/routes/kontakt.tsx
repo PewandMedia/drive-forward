@@ -4,6 +4,7 @@ import { CONTACT } from "@/lib/contact";
 import { LocationCard } from "@/components/site/LocationCard";
 import { LOCATIONS } from "@/lib/locations";
 import { Phone, Mail, Instagram, MessageCircle, AlertCircle } from "lucide-react";
+import { TikTokIcon } from "@/components/icons/TikTokIcon";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
