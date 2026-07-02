@@ -72,9 +72,9 @@ const reasons = [
 ];
 
 const PRICE_CLASSES = [
-  { key: "Klasse B", short: "B", icon: Car, tagline: "Schalter – der klassische Führerschein.", highlights: ["Manuelles Schalten", "Volle Fahrzeugauswahl"] },
-  { key: "Klasse B197", short: "B197", icon: Sparkles, tagline: "Automatik lernen, Schalter fahren dürfen.", highlights: ["Ausbildung auf Automatik", "Führerschein gilt auch für Schalter"], featured: true },
-  { key: "Klasse B78", short: "B78", icon: Cog, tagline: "Reine Automatik – einfach & entspannt.", highlights: ["Nur Automatik-Fahrzeuge", "Schnellerer Lernfortschritt"] },
+  { key: "Klasse B", short: "B", mobileShort: "Schalter", icon: Car, tagline: "Schalter – der klassische Führerschein.", highlights: ["Manuelles Schalten", "Volle Fahrzeugauswahl"] },
+  { key: "Klasse B197", short: "B197", mobileShort: "Automatik + Schalter", icon: Sparkles, tagline: "Automatik lernen, Schalter fahren dürfen.", highlights: ["Ausbildung auf Automatik", "Führerschein gilt auch für Schalter"], featured: true },
+  { key: "Klasse B78", short: "B78", mobileShort: "Automatik", icon: Cog, tagline: "Reine Automatik – einfach & entspannt.", highlights: ["Nur Automatik-Fahrzeuge", "Schnellerer Lernfortschritt"] },
 ];
 
 
@@ -418,6 +418,14 @@ function Index() {
                   <h3 className="mb-1 font-display text-lg leading-tight tracking-tighter sm:mb-2 sm:text-3xl">
                     Klasse {c.short}
                   </h3>
+                  <p
+                    className={[
+                      "mb-1 text-[9px] font-bold leading-tight sm:hidden",
+                      live ? "text-muted-foreground" : featured ? "text-white/70" : "text-muted-foreground",
+                    ].join(" ")}
+                  >
+                    {c.mobileShort}
+                  </p>
                   <p
                     className={[
                       "mb-4 hidden text-xs font-semibold uppercase tracking-wider sm:mb-6 sm:block",
