@@ -3,8 +3,8 @@ import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { CONTACT } from "@/lib/contact";
 import { LocationCard } from "@/components/site/LocationCard";
 import { LOCATIONS } from "@/lib/locations";
-import { Phone, Mail, Instagram, MessageCircle, AlertCircle } from "lucide-react";
-import { TikTokIcon } from "@/components/icons/TikTokIcon";
+import { Phone, Mail, MessageCircle, AlertCircle } from "lucide-react";
+import { InstagramLogoIcon, TikTokIcon } from "@/components/icons/TikTokIcon";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
@@ -66,14 +66,14 @@ function ContactPage() {
             </div>
           </a>
           <a href={CONTACT.instagram} target="_blank" rel="noopener" className="flex items-center gap-3 rounded-2xl border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-md">
-            <div className="rounded-full bg-foreground p-2.5 text-white"><Instagram className="h-4 w-4" /></div>
+            <div className="rounded-full p-2 text-white shadow-sm" style={{ background: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)" }}><InstagramLogoIcon className="h-5 w-5" /></div>
             <div>
               <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Instagram</div>
               <div className="text-sm font-bold">miro_drive</div>
             </div>
           </a>
           <a href={CONTACT.tiktok} target="_blank" rel="noopener" className="flex items-center gap-3 rounded-2xl border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-md">
-            <div className="rounded-full bg-foreground p-2.5 text-white"><TikTokIcon className="h-4 w-4" /></div>
+            <div className="rounded-full bg-black p-2 text-white shadow-sm"><TikTokIcon className="h-5 w-5" /></div>
             <div>
               <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">TikTok</div>
               <div className="text-sm font-bold">@mirodrive</div>
