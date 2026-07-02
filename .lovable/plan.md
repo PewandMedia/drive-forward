@@ -1,13 +1,6 @@
-## Ziel
-Die Instagram- und TikTok-Buttons im Footer sollen im jeweiligen originalen Brand-Stil erscheinen.
+Auf der Leistungen-Seite (`/leistungen`) führen die einzelnen Service-Cards aktuell unterschiedliche rote Link-Texte wie "Anmelden", "Beratung anfragen", "Termine erfragen", "Stunde buchen" und "Kurs anfragen". 
 
-## Umsetzung
-1. **Instagram-Button**: Statt neutralem `bg-white/10` den offiziellen Instagram-Verlauf (pink/lila/orange) als Hintergrund verwenden, damit er sofort erkennbar ist.
-2. **TikTok-Button**: Statt neutralem `bg-white/10` einen schwarzen oder typischen TikTok-roten Hintergrund mit weißem Icon verwenden, um den originalen Look zu treffen.
-3. Beide Buttons behalten ihre runde Form, Hover-Animation und korrekte Verlinkung.
-4. Änderung ausschließlich in `src/components/site/Footer.tsx`.
+Änderung:
+- In `src/routes/leistungen.tsx` werden alle `cta`-Werte im `services`-Array auf **"Mehr erfahren"** gesetzt, sodass jeder rote Button einheitlich beschriftet ist.
 
-## Technische Details
-- CSS-Gradient für Instagram (`linear-gradient` mit `#f09433`, `#e6683c`, `#dc2743`, `#cc2366`, `#bc1888`).
-- Reiner schwarzer oder `#010101` Hintergrund für TikTok mit weißem Icon.
-- Keine neuen Abhängigkeiten nötig.
+Das ist die einzige Datei, die angepasst wird.
