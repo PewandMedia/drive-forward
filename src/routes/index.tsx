@@ -8,7 +8,7 @@ import logoAsset from "@/assets/miro-logo.png.asset.json";
 import ersteHilfeHero from "@/assets/erste-hilfe-hero.jpg";
 import imgKlasseB from "@/assets/leistungen/klasse-b.jpg";
 import imgB197 from "@/assets/leistungen/b197.jpg";
-import { Car, Users, Clock, Euro, Heart, Sparkles, MessageCircle, ShieldCheck, GraduationCap, MapPin, ArrowRight, Cog, Calendar, FileText, Star, Check, Award, Zap, Send, ClipboardCheck, Trophy } from "lucide-react";
+import { Car, Users, Clock, Euro, Heart, Sparkles, MessageCircle, ShieldCheck, GraduationCap, MapPin, ArrowRight, Cog, Calendar, FileText, Star, Check, Award, Zap, Send, ClipboardCheck, Trophy, Flame, Timer } from "lucide-react";
 import { LocationCard } from "@/components/site/LocationCard";
 import { LOCATIONS } from "@/lib/locations";
 
@@ -327,6 +327,55 @@ function Index() {
             Alle Preise ansehen <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+
+        {/* ANGEBOTS-BANNER */}
+        {hasActiveOffer && (() => {
+          const offerRow = rowFor("Klasse B") ?? prices.find((p: any) => isOfferLive(p));
+          const oldP = offerRow?.old_price;
+          const newP = offerRow?.price;
+          const rem = offerRow ? formatRemaining(offerRow.offer_valid_until) : null;
+          const label = offerRow?.offer_label || "Angebot";
+          return (
+            <div className="mb-6 overflow-hidden rounded-3xl border-2 border-primary bg-gradient-to-br from-[#7a0010] via-primary to-[#4a0008] p-5 text-white shadow-2xl shadow-primary/30 sm:mb-8 sm:p-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[10px] font-black uppercase tracking-wider backdrop-blur sm:text-xs">
+                    <Flame className="h-3.5 w-3.5 animate-pulse" /> Jetzt sparen
+                  </div>
+                  <h3 className="mt-3 font-display text-2xl leading-tight sm:text-4xl">
+                    {label}
+                  </h3>
+                  <p className="mt-2 text-sm text-white/80 sm:text-base">
+                    Anmeldegebühr nur <span className="font-display text-xl font-bold text-white sm:text-2xl">{newP}</span>{" "}
+                    {oldP && <span className="text-sm text-white/50 line-through">statt {oldP}</span>}
+                  </p>
+                  {rem && (
+                    <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-white/90 sm:text-sm">
+                      <Timer className="h-4 w-4" /> {rem}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2 sm:flex-col sm:gap-3">
+                  <a
+                    href={CONTACT.whatsapp}
+                    target="_blank"
+                    rel="noopener"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-primary shadow-lg transition-transform hover:scale-105 sm:px-6 sm:py-3"
+                  >
+                    <MessageCircle className="h-4 w-4" /> Jetzt anmelden
+                  </a>
+                  <Link
+                    to="/preise"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-bold text-white backdrop-blur transition-colors hover:bg-white/20 sm:px-6 sm:py-3"
+                  >
+                    Alle Preise <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
         <div className="grid grid-cols-3 gap-2.5 items-stretch sm:gap-4 md:gap-6">
           {PRICE_CLASSES.map((c) => {
             const row: any = rowFor(c.key);
@@ -340,26 +389,28 @@ function Index() {
                 to="/preise"
                 className={[
                   "group relative flex flex-col justify-between overflow-hidden p-3 transition-all duration-300 sm:p-6 lg:p-8",
-                  featured
+                  live
+                    ? "z-10 border-4 border-primary bg-white shadow-[0_0_40px_-12px_theme(colors.primary/45)] hover:-translate-y-1 hover:shadow-[0_0_60px_-12px_theme(colors.primary/55)]"
+                    : featured
                     ? "z-10 bg-foreground text-white shadow-2xl md:scale-[1.03]"
                     : "border-2 border-black/5 bg-white shadow-sm hover:-translate-y-1 hover:border-foreground hover:shadow-xl",
                 ].join(" ")}
               >
-                {featured && (
+                {featured && !live && (
                   <span className="absolute right-0 top-0 bg-primary px-2 py-0.5 font-display text-[8px] uppercase tracking-widest text-primary-foreground sm:px-4 sm:py-1 sm:text-[10px]">
                     Beliebt
                   </span>
                 )}
                 {live && (
-                  <span className="absolute left-0 top-0 z-10 inline-flex items-center gap-1 bg-white px-2 py-0.5 font-display text-[8px] font-black uppercase tracking-widest text-primary shadow-md sm:px-3 sm:py-1 sm:text-[10px]">
-                    🔥 {row?.offer_label || "Angebot"}
+                  <span className="absolute left-0 top-0 z-20 inline-flex items-center gap-1 bg-primary px-2 py-0.5 font-display text-[8px] font-black uppercase tracking-widest text-primary-foreground shadow-lg sm:px-3 sm:py-1 sm:text-[10px]">
+                    <Flame className="h-2.5 w-2.5 animate-pulse sm:h-3 sm:w-3" /> {row?.offer_label || "Angebot"}
                   </span>
                 )}
                 <div>
                   <div
                     className={[
                       "mb-4 grid h-9 w-9 place-items-center rounded-full sm:mb-8 sm:h-12 sm:w-12",
-                      featured ? "bg-primary text-primary-foreground" : "bg-foreground text-white",
+                      live || featured ? "bg-primary text-primary-foreground" : "bg-foreground text-white",
                     ].join(" ")}
                   >
                     <c.icon className="h-4 w-4 sm:h-6 sm:w-6" />
@@ -370,7 +421,7 @@ function Index() {
                   <p
                     className={[
                       "mb-4 hidden text-xs font-semibold uppercase tracking-wider sm:mb-6 sm:block",
-                      featured ? "text-white/60" : "text-muted-foreground",
+                      live ? "text-muted-foreground" : featured ? "text-white/60" : "text-muted-foreground",
                     ].join(" ")}
                   >
                     {c.tagline}
@@ -388,33 +439,37 @@ function Index() {
                   <div
                     className={[
                       "flex items-end justify-between border-t pt-3 sm:pt-6",
-                      featured ? "border-white/10" : "border-black/10",
+                      live ? "border-primary/20" : featured ? "border-white/10" : "border-black/10",
                     ].join(" ")}
                   >
                     <div className="min-w-0">
                       <p
                         className={[
                           "mb-1 text-[8px] font-black uppercase tracking-[0.15em] sm:text-[10px] sm:tracking-[0.2em]",
-                          featured ? "text-white/40" : "text-muted-foreground",
+                          live ? "text-primary/60" : featured ? "text-white/40" : "text-muted-foreground",
                         ].join(" ")}
                       >
                         Ab
                       </p>
                       {live && row?.old_price && (
-                        <p className={["text-[10px] font-semibold line-through sm:text-sm", featured ? "text-white/50" : "text-muted-foreground"].join(" ")}>{row.old_price}</p>
+                        <p className={["text-sm font-semibold line-through sm:text-lg", live ? "text-muted-foreground" : featured ? "text-white/50" : "text-muted-foreground"].join(" ")}>{row.old_price}</p>
                       )}
-                      <p className={["font-display text-primary", live ? "text-2xl sm:text-5xl drop-shadow-sm" : "text-xl sm:text-4xl"].join(" ")}>{grund}</p>
+                      <p className={["font-display text-primary", live ? "text-3xl sm:text-6xl drop-shadow-sm" : "text-xl sm:text-4xl"].join(" ")}>{grund}</p>
                       {remaining && (
-                        <p className="mt-1 text-[9px] font-bold text-primary sm:text-[11px]">⏰ {remaining}</p>
+                        <p className="mt-1 inline-flex items-center gap-1 text-[9px] font-bold text-primary sm:text-[11px]">
+                          <Timer className="h-3 w-3" /> {remaining}
+                        </p>
                       )}
                       {live && row?.offer_note && (
-                        <p className={["mt-1 hidden text-[10px] italic leading-snug sm:block", featured ? "text-white/70" : "text-muted-foreground"].join(" ")}>{row.offer_note}</p>
+                        <p className={["mt-1 hidden text-[10px] italic leading-snug sm:block", live ? "text-muted-foreground" : featured ? "text-white/70" : "text-muted-foreground"].join(" ")}>{row.offer_note}</p>
                       )}
                     </div>
                     <div
                       className={[
                         "hidden h-10 w-10 items-center justify-center transition-colors sm:flex",
-                        featured
+                        live
+                          ? "bg-primary text-primary-foreground group-hover:bg-foreground"
+                          : featured
                           ? "bg-white/10 text-white group-hover:bg-primary"
                           : "border border-black/10 text-foreground group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground",
                       ].join(" ")}
