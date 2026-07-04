@@ -1,32 +1,22 @@
-## 1. Favicon aus dem Logo-Symbol
+## Vorgehen
 
-Das aktuelle Logo-SVG (`miro-drive-logo.svg`, 573×130) enthält Symbol + Wortmarke. Für das Favicon brauchen wir nur das Symbol quadratisch.
+Die hochgeladene Grafik (Wappen mit Auto & Lenkrad, rot dominant) ist nur 37×66 px, deshalb Rekonstruktion per KI-Bildgenerierung anstelle von Hochskalieren.
 
-Schritte:
-- `imagegen--edit_image` auf das Logo mit Prompt „Extract only the car/emblem symbol, centered, square, transparent background" → `public/favicon.png` (512×512, transparent).
-- In `src/routes/__root.tsx` das `<link rel="icon">` auf `/favicon.png` (type `image/png`) umstellen.
-- `public/favicon.ico` löschen (Template-Default).
+### Schritte
 
-## 2. Neue Untertitel (Meta-Descriptions) je Route
+1. **Emblem in Höchstauflösung neu bauen**
+   - `imagegen--generate_image` mit `model: "premium"`, 1920×1920, `transparent_background: true`.
+   - Prompt: rotes Wappen/Schild mit stilisiertem Auto von vorne, Lenkrad im Zentrum, schwarze Konturen, saubere Vektor-Ästhetik, keinerlei Text, zentriert, transparent.
+   - Hinweis: Der Bild-Generator ist auf 1920 px pro Kante gedeckelt — echte 4K (3840 px) sind über das Tool nicht möglich. Für Favicon/Web reicht 1920 px vollständig.
+   - Ziel: `src/assets/miro-emblem.png` → dann als CDN-Asset via `lovable-assets create` (Pointer `miro-emblem.png.asset.json`).
 
-Kürzere, prägnantere Untertitel — jede Seite bekommt einen eigenen Charakter statt fast identischer Formulierungen. Vorschlag pro Seite (wird in `description` + `og:description` gesetzt):
+2. **Favicon ersetzen**
+   - Dieselbe Grafik nach `public/favicon.png` kopieren (überschreibt den aktuellen MD-Favicon).
+   - `src/routes/__root.tsx` bleibt unverändert (`{ rel: "icon", type: "image/png", href: "/favicon.png" }` ist bereits gesetzt).
 
-| Route | Neuer Untertitel |
-|---|---|
-| `/` | Führerschein Klasse B, B197 & B78 in Bochum – moderne Fahrzeuge, faire Preise, persönliche Betreuung. |
-| `/leistungen` | Klasse B, B197, B78, Theorie, Sonderfahrten und Erste-Hilfe-Kurs – alles aus einer Hand in Bochum. |
-| `/preise` | Klare Paketpreise für Klasse B, B197, B78 und Erste-Hilfe-Kurs – ohne versteckte Kosten. |
-| `/team` | Mehrsprachig, geduldig, erfahren – lerne die Fahrlehrer:innen von MIRO-DRIVE persönlich kennen. |
-| `/ueber-uns` | Deine Fahrschule in Bochum Zentrum & Riemke – modern ausgestattet, transparent und nah dran. |
-| `/kontakt` | WhatsApp, Telefon oder Filiale in Bochum – melde dich in unter einer Minute für den Führerschein an. |
-| `/faq` | Antworten zu Anmeldung, Ablauf, Klasse B/B197/B78, Prüfungen und Erste-Hilfe-Kurs in Bochum. |
-| `/erste-hilfe-kurs` | Amtlich anerkannter Erste-Hilfe-Kurs in Bochum – regelmäßige Termine, Anmeldung per WhatsApp. |
-| `/impressum` | Anbieterkennzeichnung nach § 5 TMG für die Fahrschule MIRO-DRIVE in Bochum. |
-| `/datenschutz` | Wie MIRO-DRIVE personenbezogene Daten verarbeitet – transparent nach DSGVO. |
+3. **Optional**: Wenn du das neue Emblem auch irgendwo in der Site einsetzen willst (z. B. Navbar-Logo statt / neben dem MIRO-DRIVE-Schriftzug), sag Bescheid — sonst bleibt es reines Favicon-Asset.
 
-Titel (`<title>`) bleiben unverändert, weil sie SEO-optimiert sind (Keyword „Fahrschule Bochum" vorne).
+### Verifikation
 
-## Verifikation
-
-- Preview: Favicon erscheint im Browser-Tab.
-- `bun run build` grün.
+- Generiertes Bild ansehen und vergleichen; falls die KI die Form daneben trifft, mit `imagegen--edit_image` nachschärfen (statt neu würfeln).
+- Browser-Tab zeigt neues rotes Emblem.
