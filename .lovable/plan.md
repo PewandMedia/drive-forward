@@ -1,18 +1,17 @@
-## Problem
-Die Domain `mirodrive.pewandmedia.de` wird von Vite blockiert („Blocked request. This host is not allowed").
+## Plan
 
-## Lösung
-In `vite.config.ts` die `allowedHosts` erweitern, damit die Custom Domain (und Subdomains) zugelassen sind.
+1. **Vite-Konfiguration prüfen**
+   - Sicherstellen, dass `vite.config.ts` den Host `mirodrive.pewandmedia.de` in `server.allowedHosts` enthält.
 
-```ts
-export default defineConfig({
-  tanstackStart: { server: { entry: "server" } },
-  vite: {
-    server: {
-      allowedHosts: ["mirodrive.pewandmedia.de", ".pewandmedia.de", ".lovable.app"],
-    },
-  },
-});
-```
+2. **Host-Freigabe korrigieren**
+   - Falls nötig, `server.allowedHosts` so setzen, dass diese Domains erlaubt sind:
+     - `mirodrive.pewandmedia.de`
+     - `.pewandmedia.de`
+     - `.lovable.app`
 
-Danach lädt die Seite unter der Domain normal.
+3. **Preview neu laden**
+   - Danach den Dev-Server neu starten bzw. Preview aktualisieren, damit die Änderung aktiv wird.
+
+## Technische Details
+
+Die Fehlermeldung kommt nicht von der Webseite selbst, sondern vom lokalen Vite-Server. Er blockiert Requests, deren Hostname nicht ausdrücklich erlaubt ist. Die Lösung ist eine Ergänzung in `vite.config.ts` unter `vite.server.allowedHosts`.
