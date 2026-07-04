@@ -1,18 +1,21 @@
 ## Problem
-Die Sprach-Tags in den Team-Flip-Cards überlappen bei vielen Sprachen die feste Kartenhöhe und ragen aus der Box heraus.
-
-## Ursache
-Die FlipCards verwenden eine absolute, 3D-geflippte Struktur mit fester `min-h` (300px/360px bzw. 440px). Der Sprachen-Container nutzt `flex-wrap`, wodurch bei vielen Sprachen der verfügbare vertikale Platz überschritten wird.
+Die Team-Bilder werden nicht angezeigt, weil die `image_url`-Werte in der Datenbank auf alte UUID-Pfade zeigen (z.B. `/images/team/23bb85eb-...`), aber die tatsächlichen Bilddateien in `public/images/team/` nach Vornamen benannt sind (z.B. `ilkay.jpg`, `azad.jpg`). → 404 für jedes Bild.
 
 ## Lösung
-1. **`src/routes/team.tsx`** – FlipCard:
-   - Erhöhe `min-h` für normale Karten von `300px` auf `380px` und `sm:min-h-[360px]` auf `sm:min-h-[420px]`
-   - Erhöhe `min-h` für große Karten (`lg`) von `440px` auf `520px`
-   - Oder alternativ: Begrenze die Sprach-Tags auf max. 2 Zeilen mit `line-clamp`/`overflow-hidden` und `max-h` auf dem Sprachen-Container
+Eine Migration ausführen, die die `image_url`-Werte in `team_members` auf die korrekten Dateipfade aktualisiert:
 
-2. Sorge dafür, dass alle Karten einer Reihe dieselbe Höhe haben (grid-Row-Ausrichtung bleibt erhalten).
+| Name    | Neuer image_url                  |
+|---------|----------------------------------|
+| Ilkay   | /images/team/ilkay.jpg           |
+| Azad    | /images/team/azad.jpg            |
+| Lukman  | /images/team/lukman.jpg          |
+| Alan    | /images/team/alan.jpg            |
+| Burak   | /images/team/burak.jpg           |
+| Renas   | /images/team/renas.jpg           |
+| Bahar   | /images/team/bahar.jpg           |
+| Rawshan | /images/team/rawshan.jpg         |
+| Dilan   | /images/team/dilan.png           |
+| Jiyan   | /images/team/jiyan.jpg           |
+| Birtan  | /images/team/birtan.webp         |
 
-3. Keine Änderung an Texten, Farben, Design oder Funktionalität der Flip-Animation.
-
-## Ziel
-Sprach-Tags bleiben sauber innerhalb jeder Team-Karte, unabhängig von der Anzahl der gesprochenen Sprachen.
+Keine Code- oder Design-Änderungen — nur Datenkorrektur per SQL-Migration.
