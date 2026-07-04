@@ -1,46 +1,57 @@
-## Diagnose
+## Was auf deinem Screenshot auffällt
 
-Die kaputte Team-Seite kommt sehr wahrscheinlich nicht vom CSRF-Hinweis und auch nicht direkt vom WebSocket/Node-Problem. Auf dem Screenshot sieht man ein Layout-Problem: Die Team-Karten/Flip-Karten laufen optisch aus ihrem vorgesehenen Bereich und überdecken den Footer.
+Auf dem hochgeladenen Screenshot ist noch die alte kaputte Team-Version sichtbar:
 
-Der aktuelle Code nutzt für die Team-Karten eine 3D-Flip-Struktur mit `absolute inset-0`, eigenen CSS-Utilities wie `preserve-3d`, `backface-hidden`, `rotate-y-180` und dynamischen Höhenklassen. Wenn auf dem Debian-Server eine alte Build-Version, ein anderer CSS-Build oder gecachte Assets laufen, können genau diese 3D-/absolute-Styles brechen. Dann werden Kartenflächen, Avatare und Texte nicht mehr im normalen Dokumentfluss gehalten und landen übereinander.
+- Es steht noch „KLICK FÜR MEHR“ unter den Karten.
+- Eine rote Rückseite/Flip-Karte hängt mitten über den anderen Karten.
+- Genau diese alte 3D-Flip-Technik wurde im aktuellen Code bereits entfernt.
+
+Das bedeutet: Die Laptop-/Desktop-Ansicht auf deiner Server-Domain lädt sehr wahrscheinlich noch einen alten Build oder gemischte gecachte Dateien. Mobile kann trotzdem normal aussehen, weil dort andere Assets/Chunks oder ein anderer Cache-Zustand geladen werden.
 
 ## Lösungsvorschlag
 
-1. **Team-Karten robust neu bauen**
-   - Die fehleranfällige 3D-Flip-Card-Struktur entfernen.
-   - Normale stabile Karten im Dokumentfluss verwenden, ohne `absolute`, ohne 3D-Transform und ohne Backface-Logik.
-   - Avatar, Name, Rolle, Sprachen und Kurztext sichtbar sauber in einer Karte anzeigen.
+1. **Team-Seite noch härter absichern**
+   - Die Team-Seite bleibt ohne Flip-/3D-Logik.
+   - Zusätzlich mache ich das Desktop-Layout noch robuster: klare Section-Abstände, `overflow-visible/hidden` gezielt setzen, stabile Card-Höhen und ein weniger aggressives Desktop-Grid.
+   - Ziel: Auch bei Laptop-Breiten wie 999–1200px kann nichts mehr in den Footer laufen.
 
-2. **Grid stabilisieren**
-   - Desktop: sauberes 3-/4-Spalten-Grid.
-   - Tablet/Mobile: weniger Spalten, damit nichts zusammengedrückt wird.
-   - Jede Karte bekommt feste responsive Mindesthöhen und `h-full`, damit Karten gleichmäßig stehen und den Footer nicht überlappen.
+2. **Alte Flip-Spuren komplett entfernen**
+   - Prüfen, ob irgendwo noch alte Flip-Klassen, Texte wie „KLICK FÜR MEHR“, `rotate-y`, `backface`, `preserve-3d` oder `absolute inset-0` für Team-Karten übrig sind.
+   - Falls ja: vollständig entfernen.
 
-3. **Owner-/Chefkarte separat stabil darstellen**
-   - Die hervorgehobene Ilkay-Karte bleibt optisch größer, aber ebenfalls ohne absolute/3D-Technik.
-   - Dadurch kann sie nicht mehr über andere Karten rutschen.
+3. **Desktop gezielt testen**
+   - Test mit Laptop-/Desktop-Breite ähnlich deinem Screenshot.
+   - Prüfen:
+     - keine Karte überlappt andere Karten,
+     - keine Karte überlappt den Footer,
+     - „KLICK FÜR MEHR“ ist komplett weg,
+     - Bürokräfte starten erst nach den Fahrlehrer-Karten.
 
-4. **Footer-Abstand absichern**
-   - Unterhalb der Team-Sektionen genug Abstand lassen.
-   - Der Footer bleibt erst nach dem kompletten Team-Grid sichtbar.
+4. **Server-Deployment-Anweisung ergänzen**
+   - Nach dem Code-Fix muss auf deinem Debian-Server wirklich ein frischer Build laufen.
+   - Danach Browser-Cache hart löschen, weil dein Screenshot klar nach altem Code aussieht.
 
-5. **Alte CSS-Risikostellen entfernen oder ungenutzt lassen**
-   - Die speziellen Flip-Utilities werden nicht mehr gebraucht.
-   - Dadurch ist die Seite weniger abhängig von CSS-Generierung, Browser-3D-Verhalten und gecachten alten Assets.
-
-## Ergebnis
-
-Nach Umsetzung ist die Team-Seite technisch simpler und stabiler. Selbst wenn dein Debian-Server noch mit Node 20/22, PM2 oder gecachten Assets arbeitet, kann diese konkrete Überlappung nicht mehr durch die Flip-Card-Struktur entstehen.
-
-## Danach auf dem Debian-Server
-
-Nach dem Code-Fix trotzdem einmal frisch bauen und neustarten:
+## Befehle für deinen Debian-Server nach dem Fix
 
 ```bash
+cd /pfad/zu/deinem/projekt
 git pull
+rm -rf .output dist node_modules/.vite
 npm install
 npm run build
 pm2 restart all
 ```
 
-Falls dein Prozess nicht über PM2 läuft, statt `pm2 restart all` deinen systemd-Service oder Startprozess neu starten.
+Wenn du nicht PM2 nutzt, statt `pm2 restart all` deinen systemd-Service neu starten.
+
+Danach im Browser auf Laptop:
+
+```text
+Cmd + Shift + R auf Mac
+oder
+Strg + F5 auf Windows/Linux
+```
+
+## Erwartetes Ergebnis
+
+Die Team-Seite zeigt auf Laptop/Desktop nur noch normale saubere Karten. Keine roten Flip-Rückseiten, kein „KLICK FÜR MEHR“, keine Überlappung mit dem Footer.
