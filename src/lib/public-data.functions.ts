@@ -1,19 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
-
-function serverPublicClient() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key) throw new Error("Supabase server env missing");
-  return createClient<Database>(url, key, {
-    auth: {
-      storage: undefined,
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
-}
+import { serverPublicClient } from "./public-data.server";
 
 export const getActivePrices = createServerFn({ method: "GET" }).handler(async () => {
   const supabase = serverPublicClient();
@@ -69,4 +55,15 @@ export const getFirstAidInfo = createServerFn({ method: "GET" }).handler(async (
     .limit(1);
   if (error) throw new Error(error.message);
   return data?.[0] ?? null;
+});
+
+export const hasActiveOffer = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = serverPublicClient();
+  const { count, error } = await supabase
+    .from("prices")
+    .select("id", { count: "exact", head: true })
+    .eq("active", true)
+    .eq("offer_active", true);
+  if (error) throw new Error(error.message);
+  return (count ?? 0) > 0;
 });

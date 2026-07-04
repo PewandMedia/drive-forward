@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X, Sparkles } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { hasActiveOffer } from "@/lib/public-data.functions";
 import { NAV_LINKS } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
@@ -17,14 +17,7 @@ export function Navbar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { data: hasOffer = false } = useQuery({
     queryKey: ["nav-active-offer"],
-    queryFn: async () => {
-      const { count } = await supabase
-        .from("prices")
-        .select("id", { count: "exact", head: true })
-        .eq("active", true)
-        .eq("offer_active", true);
-      return (count ?? 0) > 0;
-    },
+    queryFn: () => hasActiveOffer(),
     staleTime: 5 * 60_000,
     gcTime: 10 * 60_000,
     refetchOnWindowFocus: false,

@@ -1,30 +1,26 @@
-## Problem
-Beim Reload einer Unterseite (z.B. `/team`, `/preise`, `/erste-hilfe-kurs`, `/`) läuft der TanStack-Loader auf dem Server (SSR). Die Loader benutzen aber den Browser-Supabase-Client (`@/integrations/supabase/client`), der beim Init in Node 20 den Realtime-Client zu laden versucht → Fehler „Node.js 20 detected without native WebSocket support" → SSR bricht ab („Inhalt konnte nicht geladen werden"). Das ist auch der Grund, warum die Team-Seite live hängt.
+## Plan
 
-## Lösung
-Für alle öffentlichen Lesezugriffe einen **Server-Function-basierten Publishable-Client** einführen, der ohne Session und ohne Realtime auskommt, und die Loader darauf umstellen.
+1. **Header-Abfrage reparieren**
+   - Die aktuelle Ursache steckt noch im Header: `Navbar` nutzt den browserseitigen Backend-Client für die kleine „Aktion“-Abfrage.
+   - Diese Abfrage läuft beim Seitenwechsel mit und kann beim SSR/Reload den WebSocket-/Node.js-20-Fehler auslösen.
 
-### Änderungen
+2. **Serverseitige, sichere Abfrage ergänzen**
+   - In `src/lib/public-data.functions.ts` eine neue öffentliche Server-Funktion ergänzen, z. B. `hasActiveOffer`.
+   - Sie prüft nur, ob es aktive Angebote gibt (`prices.active = true` und `offer_active = true`) und nutzt den bereits vorhandenen serverseitigen Public-Client ohne Realtime/WebSocket.
 
-1. **Neu: `src/lib/public-data.functions.ts`** – enthält vier `createServerFn`s (GET):
-   - `getActivePrices` → `prices` (öffentliche Felder, `active=true`)
-   - `getActiveTeamMembers` → `team_members` (alle Felder, `active=true`, sortiert)
-   - `getTeamPreview` → `team_members` (id, name, role, image_url, `active=true`, limit 4)
-   - `getFirstAidInfo` → `first_aid_info` (aktiv, neuester Eintrag)
-   
-   Jede Function erzeugt lokal per `@supabase/supabase-js` einen Client mit `process.env.SUPABASE_URL` + `process.env.SUPABASE_PUBLISHABLE_KEY` und `auth: { storage: undefined, persistSession: false, autoRefreshToken: false }`. Kein Realtime, keine WS.
+3. **Navbar umstellen**
+   - `src/components/site/Navbar.tsx` entfernt den Import des browserseitigen Backend-Clients.
+   - Der React-Query `queryFn` ruft stattdessen `hasActiveOffer()` auf.
+   - UI und Design bleiben unverändert.
 
-2. **`src/routes/team.tsx`** – `queryFn` ruft `getActiveTeamMembers` statt Browser-Client.
-3. **`src/routes/preise.tsx`** – `queryFn` ruft `getActivePrices`.
-4. **`src/routes/erste-hilfe-kurs.tsx`** – `queryFn` ruft `getFirstAidInfo`.
-5. **`src/routes/index.tsx`** – die drei Public-Queries (`prices`, `team_members preview`, `first_aid_info`) auf die Server-Fns umstellen.
+4. **Gegen weitere öffentliche Fehler absichern**
+   - Prüfen, dass öffentliche Seiten (`/`, `/team`, `/preise`, `/erste-hilfe-kurs`, Header) keine browserseitigen Datenbankabfragen mehr beim SSR/Seitenwechsel verwenden.
+   - Auth/Admin-Bereiche bleiben unverändert, weil sie clientseitig geschützt sind.
 
-Keine Änderungen an:
-- `Navbar.tsx`, `auth.tsx`, `_authenticated/*` (dort ist der Browser-Client korrekt, weil clientseitig / auth-abhängig)
-- UI, Layout, Design, Texten
-- RLS/Migrationen (bestehende Anon-Policies auf den vier Tabellen genügen)
+5. **Verifizieren**
+   - Build/Typecheck laufen lassen.
+   - Seitenwechsel über den Header und Reload auf Unterseiten testen, damit der Fehler nicht mehr erscheint.
 
 ## Ergebnis
-- SSR-Reload auf allen Unterseiten funktioniert wieder.
-- Live-Team-Seite hängt nicht mehr.
-- Realtime wird auf dem Server nie initialisiert → keine WS-Warnung mehr.
+
+Der Header soll auf allen öffentlichen Unterseiten sauber navigieren und reloaden, ohne „Node.js 20 detected without native WebSocket support“ oder „Inhalt konnte nicht geladen werden“.
