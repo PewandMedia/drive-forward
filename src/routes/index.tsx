@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { useQueries } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getHomePrices, getTeamPreview, getFirstAidInfo } from "@/lib/public-data.functions";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { CONTACT } from "@/lib/contact";
 import ersteHilfeHero from "@/assets/erste-hilfe-hero.jpg";
@@ -84,27 +84,15 @@ function Index() {
     queries: [
       {
         queryKey: ["home-prices"],
-        queryFn: async () => {
-          const { data, error } = await supabase.from("prices").select("category,title,price,old_price,offer_label,offer_note,offer_active,offer_valid_from,offer_valid_until").eq("active", true);
-          if (error) throw error;
-          return data ?? [];
-        },
+        queryFn: () => getHomePrices(),
       },
       {
         queryKey: ["home-team"],
-        queryFn: async () => {
-          const { data, error } = await supabase.from("team_members").select("id,name,role,image_url").eq("active", true).order("sort_order").limit(4);
-          if (error) throw error;
-          return data ?? [];
-        },
+        queryFn: () => getTeamPreview(),
       },
       {
         queryKey: ["home-first-aid"],
-        queryFn: async () => {
-          const { data, error } = await supabase.from("first_aid_info").select("*").eq("active", true).order("updated_at", { ascending: false }).limit(1);
-          if (error) throw error;
-          return data?.[0] ?? null;
-        },
+        queryFn: () => getFirstAidInfo(),
       },
     ],
   });
